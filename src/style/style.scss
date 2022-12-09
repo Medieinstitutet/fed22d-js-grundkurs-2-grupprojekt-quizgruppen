@@ -2,63 +2,118 @@
 @use "vendor/reset";
 
 :root {
-  // TODO: Går bra att radera kod även här!
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: rem(16px);
-  line-height: 24px;
-  font-weight: 400;
-  color-scheme: light dark;
-  color: rgb(255 255 255 / 87%);
-  background-color: #242424;
-  font-synthesis: none;
-  text-rendering: optimizelegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-size-adjust: 100%;
+  font-family: 'Baloo 2', cursive;
+  color: rgb(255, 255, 255);
+  --main-bg-color: linear-gradient(rgb(0, 50, 215), rgb(13, 170, 233));
 }
 
-// TODO: Radera mig! Jag är bara ett exempel.
-main {
-  padding: 20px;
-}
+//=================================================================================================
+//---------------------------------------- START PAGE ---------------------------------------------
+//=================================================================================================
 
-.app {
-  margin-block: 20px;
+.start-page {
+  background: var(--main-bg-color);
+  min-height: 100vh;
   display: flex;
-  gap: 20px;
-  justify-content: space-around;
-
-  .card {
-    $card-size: 250px;
-
-    width: 0.6413 * $card-size;
-    height: $card-size;
-    cursor: pointer;
-    background: #102a3f;
-    border-radius: 8px;
-    display: flex;
-    font-weight: bold;
-    align-items: center;
-    justify-content: space-around;
-    text-align: center;
-    box-shadow: 5px 5px 5px rgb(0 0 0 / 20%);
-
-    .front {
-      font-size: rem(50px);
-    }
-
-    .back {
-      display: none;
-    }
-
-    &.visible {
-      .front {
-        display: none;
-      }
-
-      .back {
-        display: block;
-      }
-    }
-  }
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
+
+.logo-container {
+  background: linear-gradient(rgb(215, 215, 215), rgb(219, 135, 9), rgb(235, 61, 8));
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  margin-top: 10px;
+  margin-left: 5px;
+  font-size: 6rem;
+  font-family: 'Slackey', cursive;
+}
+
+.logo-description-container {
+  margin: 60px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-description-container h1 {
+  text-transform: uppercase;
+  font-family: 'Slackey', cursive;
+  font-size: 4.5rem;
+}
+
+.logo-description-container h2 {
+  font-size: 1rem;
+}
+
+.player {
+  background-color: white;
+  color: black;
+  margin-top: 50px;
+}
+
+.start {
+  background: linear-gradient(rgb(246, 201, 77), rgb(219, 135, 9), rgb(235, 61, 8));
+  padding: 10px 50px;
+  border-radius: 50px;
+  margin: 20px;
+  margin-bottom: 50px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+.start:hover {
+  background: linear-gradient(rgb(255, 232, 25), rgb(253, 138, 51));
+  color: black;
+}
+
+//=================================================================================================
+//-------------------------------------- QUESTION PAGE --------------------------------------------
+//=================================================================================================
+
+
+.question-page {
+  background: var(--main-bg-color);
+  min-height: 100vh;
+}
+
+//=================================================================================================
+//-------------------------------------- GAME OVER PAGE -------------------------------------------
+//=================================================================================================
+
+.game-over-page {
+  background: var(--main-bg-color);
+  min-height: 100vh;
+}
+
+//=================================================================================================
+//-------------------------------------- @ MEDIA QUERIES ------------------------------------------
+//=================================================================================================
+
+//------------------------------------------- TABLET  ---------------------------------------------
+@media screen and (min-width: 768px) {
+  .start-page{
+    justify-content: space-evenly;
+  }
+};
+
+
+//------------------------------------------- DESKTOP ---------------------------------------------
+@media screen and (min-width: 1024px) {
+  .start-page{
+    justify-content: space-evenly;
+  }
+};
+

@@ -1,22 +1,53 @@
 <!DOCTYPE html>
-<html lang="en"> <!-- TODO: glöm ej att byta språk här -->
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/ico" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projekt</title>
-  </head>
-  <body>
-    <main>
-      <div class="app" id="app"></div> <!-- TODO: går bra att radera -->
-      <!-- TODO: skriv din kod här, innan script-taggen -->
-    </main>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/ico" href="/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Slackey&display=swap" rel="stylesheet">
+</head>
 
-    <!-- TODO
-    - Validera HTML (kopiera den renderade HTML-koden): https://validator.w3.org/#validate_by_input
-    - Kontrollera tillgänglighet: https://www.a11yproject.com/checklist/ & Chrome Lighthouse/Firefox Accessibility Tools
-    - Validera genererade CSS: https://jigsaw.w3.org/css-validator/#validate_by_input
-    -->
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<body>
+
+  <section class="start-page">
+
+    <div class="logo-description-container">
+      <div class="logo-container"> 
+        <span class="logo" aria-hidden=true>?</span> <!--question mark for decorative purpose only-->
+      </div>
+      <h1>Quiz Time!</h1>
+      <h2 id="quiz-description">Try out this QUIZ about . . . </h2>
+    </div>
+
+    <div class="player-start-container">
+      <div class="player">Name</div> 
+      <div class="start">Start</div> <!--OBS! la in divvar för "namn" och "knapp" bara för att testa i designen-->
+    </div>
+
+  </section>
+
+  <section class="question-page">
+    
+    <div class="question-container">
+    </div>
+
+    <div id="answers-container">
+    </div>
+
+  </section>
+
+  <section class="game-over-page">
+  </section>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
 </html>
+
+<!-- TODO
+  - Validera HTML (kopiera den renderade HTML-koden): https://validator.w3.org/#validate_by_input
+  - Kontrollera tillgänglighet: https://www.a11yproject.com/checklist/ & Chrome Lighthouse/Firefox Accessibility Tools
+  - Validera genererade CSS: https://jigsaw.w3.org/css-validator/#validate_by_input
+-->
