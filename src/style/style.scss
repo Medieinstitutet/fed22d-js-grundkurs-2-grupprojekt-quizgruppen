@@ -87,7 +87,61 @@
 .question-page {
   background: var(--main-bg-color);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
 }
+
+.question-container p {
+  margin: 80px 10px 10px 10px;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.answers-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.answers-container button {
+  background: linear-gradient(rgb(246, 201, 77), rgb(219, 135, 9), rgb(235, 61, 8));
+  width: 80vw;
+  padding: 10px;
+  border: none;
+  border-radius: 30px;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.answers-container button:hover {
+  background: linear-gradient(rgb(255, 232, 25), rgb(253, 138, 51));
+  color: black;
+  border: 3px solid rgb(0, 0, 0);
+}
+
+.next-button {
+  background: none;
+  border: none;
+  margin-top: 70px;
+}
+
+.material-symbols-outlined { //arrow symbol for next question button
+  font-size: 4.5rem;
+  color: rgb(255, 255, 255);
+}
+
+.material-symbols-outlined:hover {
+  background: linear-gradient(rgb(246, 201, 77), rgb(219, 135, 9), rgb(235, 61, 8));
+  border: none;
+  border-radius: 50%;
+}
+
 
 //=================================================================================================
 //-------------------------------------- GAME OVER PAGE -------------------------------------------
@@ -104,16 +158,39 @@
 
 //------------------------------------------- TABLET  ---------------------------------------------
 @media screen and (min-width: 768px) {
-  .start-page{
+  .start-page {
     justify-content: space-evenly;
   }
-};
+
+  .question-page {
+    justify-content: space-around;
+  }
+
+  .question-container p {
+    max-width: 600px;
+  }
+
+  .answers-container button {
+    max-width: 500px;
+  }
+}
 
 
 //------------------------------------------- DESKTOP ---------------------------------------------
 @media screen and (min-width: 1024px) {
-  .start-page{
+  .start-page {
     justify-content: space-evenly;
   }
-};
 
+  .question-page {
+    justify-content: space-around;
+  }
+
+  .question-container p {
+    max-width: 800px;
+  }
+
+  .answers-container button {
+    max-width: 600px;
+  }
+}
