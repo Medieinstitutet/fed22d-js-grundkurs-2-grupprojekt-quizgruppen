@@ -150,6 +150,45 @@
 .game-over-page {
   background: var(--main-bg-color);
   min-height: 100vh;
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.game-over {
+  margin: 15px;
+  text-transform: uppercase;
+  font-family: 'Slackey', cursive;
+  font-size: 4.5rem;
+  text-align: center;
+}
+
+.points-text {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.play-again {
+  background: linear-gradient(rgb(246, 201, 77), rgb(219, 135, 9), rgb(235, 61, 8));
+  padding: 10px 50px;
+  border-radius: 50px;
+  border: none;
+  margin: 20px;
+  margin-bottom: 50px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  color: white;
+}
+
+.play-again:hover {
+  background: linear-gradient(rgb(255, 232, 25), rgb(253, 138, 51));
+  color: black;
 }
 
 //=================================================================================================
@@ -173,6 +212,10 @@
   .answers-container button {
     max-width: 500px;
   }
+
+  .game-over-page {
+    justify-content: space-evenly;
+  }
 }
 
 
@@ -192,5 +235,9 @@
 
   .answers-container button {
     max-width: 600px;
+  }
+
+  .game-over-page {
+    justify-content: space-evenly;
   }
 }
