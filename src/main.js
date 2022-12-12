@@ -1,59 +1,78 @@
+/* eslint-disable linebreak-style */
 import './style/style.scss';
 
-// ****************************************************************************************************
-// ------------------------------------------ DECLARE VARIABLES ---------------------------------------
-// ****************************************************************************************************
+import quizQuestions from './questions.js';
+import { check } from 'prettier';
 
-//TEST, 2 questions in an array of objects
-const quizContent = [
-    {
-        questionText: 'What is 1 + 1?',
-        answerOptions: ['3', '2', '4'],
-        correct: '2',
-    },
+const animalQuestionsEasy = quizQuestions.results;
 
-    {
-        questionText: 'What is 2 + 3?',
-        answerOptions: ['7', '4', '5'],
-        correct: '5',
-    },
-]
+const app = document.querySelector('#app');
 
-//selecting the html-containers for question and answer options
-const questionContainer = document.querySelector("#question-text");
-const answer1 = document.querySelector("#answer-1");
-const answer2 = document.querySelector("#answer-2");
-const answer3 = document.querySelector("#answer-3");
+let score = 0;
 
-//selecting the next-question-button
-const nextBtn = document.querySelector("#nextBtn");
-
-//variable to keep track of the object index in the array, index starts on 0
-let currentObject = 0;
+const createScore = document.createElement('p');
+createScore.innerHTML = `Score: ${score}`;
+app.appendChild(createScore);
 
 
-// ****************************************************************************************************
-// ----------------------------------------- DECLARE FUNCTIONS ----------------------------------------
-// ****************************************************************************************************
+// render questions
+function renderQuestions() {
 
-/**
- * Function to show a new question and its answer options
- */
-const newQuestion = () => {
-    questionContainer.innerHTML = quizContent[currentObject].questionText;
-    answer1.innerHTML = quizContent[currentObject].answerOptions[0];
-    answer2.innerHTML = quizContent[currentObject].answerOptions[1];
-    answer3.innerHTML = quizContent[currentObject].answerOptions[2];
-    currentObject++; //adds +1 every time we run the function (keeps track of object index)
+  animalQuestionsEasy.forEach(element => {
+    const question = element.question;
+    const correctAnswer = element.correct_answer;
+    const incorrectAnswers = element.incorrect_answers;
+
+    // create container for question and answers
+    const questionDiv = document.createElement('div');
+    questionDiv.className = 'questionDiv';
+    app.appendChild(questionDiv);
+
+    // create question and append
+    const questionH2 = document.createElement('h2');
+    questionH2.innerHTML = question;
+    questionDiv.appendChild(questionH2);
+
+    // create correct answer and append
+    const correctAnswerBtn = document.createElement('button');
+    correctAnswerBtn.className = 'correctAnswer';
+    correctAnswerBtn.innerHTML = `${correctAnswer}`;
+
+    correctAnswerBtn.addEventListener('click', checkAnswer);
+
+    // create array of all buttons
+    const allAnswersBtns = [correctAnswerBtn];
+
+    // create incorrect answers and append
+    incorrectAnswers.forEach(answer => {
+      const incorrectAnswerBtn = document.createElement('button');
+      incorrectAnswerBtn.className = 'incorrectAnswer';
+      incorrectAnswerBtn.innerHTML = `${answer}`;
+      incorrectAnswerBtn.addEventListener('click', checkAnswer);
+      allAnswersBtns.push(incorrectAnswerBtn);
+    });
+
+    // randomize what order the answers will be displayed in
+    const randomizedAnswersBtns = allAnswersBtns.sort(() => Math.random() - 0.5);
+
+    randomizedAnswersBtns.forEach(button => {
+      questionDiv.appendChild(button);
+    })
+  });
+}
+
+// check if answer is correct, add 1 score if true
+function checkAnswer(e) {
+  const myAnswer = e.currentTarget.className;
+
+  if (myAnswer === 'correctAnswer') {
+    score = score + 1;
+    console.log('Correct answer!');
+    createScore.innerHTML = `Score: ${score}`;
+  } else if (myAnswer === 'incorrectAnswer') {
+    console.log('Try again!')
+  }
 }
 
 
-// ****************************************************************************************************
-// --------------------------------------------- PROGRAM LOGIC ----------------------------------------
-// ****************************************************************************************************
-
-//Calls function to display question and answer options
-newQuestion();
-
-//Adds an event listener to the next-question-button, on click the function newQuestion will run
-nextBtn.addEventListener('click', newQuestion);
+renderQuestions();
