@@ -38,3 +38,4 @@
 - Olika kategorier
 - Scoreboard
 - Begränsad tid
+- 
