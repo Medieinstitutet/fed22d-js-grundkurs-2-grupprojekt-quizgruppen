@@ -55,12 +55,11 @@ function randomNumber() {
 // render questions
 function renderQuestions() {
 
-  if(questionCounter < 10) {
+  if (questionCounter >= 10) {
+    return;
+  } else {
     questionPage.style.display = 'flex';
     gameOverPage.style.display = 'none';
-  } else {
-    questionPage.style.display = 'none';
-    gameOverPage.style.display = 'flex';
   }
   
   scoreText.innerHTML = `Score: ${score}`;
@@ -114,9 +113,17 @@ function checkAnswer(e) {
     console.log('Incorrect answer!')
   }
 
-  questionCounter++;
+  if(questionCounter < 10) {
+    questionPage.style.display = 'flex';
+    gameOverPage.style.display = 'none';
+    questionCounter++;
+    renderQuestions();
+  } else {
+    questionPage.style.display = 'none';
+    gameOverPage.style.display = 'flex';
+    questionCounter = 0;
+  }
   clearClasses();
-  renderQuestions();
 }
 
 //=================================================================================================
