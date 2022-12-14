@@ -1,8 +1,7 @@
-
-import './style/style.scss';
+// import './style/style.css';
 
 import quizQuestions from './questions.js';
-import { check } from 'prettier';
+// import { check } from 'prettier';
 
 const animalQuestionsEasy = quizQuestions.results;
 
