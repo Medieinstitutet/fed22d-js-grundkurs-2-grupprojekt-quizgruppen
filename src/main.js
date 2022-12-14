@@ -2,7 +2,6 @@ import './style/style.scss';
 
 import quizQuestions from './questions.js';
 import { check } from 'prettier';
-// import { check } from 'prettier';
 
 //=================================================================================================
 //----------------------------------- VARIABLE DECLARATIONS ---------------------------------------
