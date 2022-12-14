@@ -1,45 +1,52 @@
-### TO DO: 
+### TO DO:
 
 #### Anton:
+
 - ✔️ API (objekt i en array, Frågor - sträng, svarsalternativ - sträng / boolean, ett korrekt svarsalternativ)
 
-#### Jessika: 
+#### Jessika:
+
 - ✔️ Namn och startknapp
-- Lägga upp så att frågor kommer upp 1 och 1
+- ✔️ Lägga upp så att frågor kommer upp 1 och 1
 
 #### Sandra:
-- ✔️ Lägg upp 2 testfrågor.
-- ✔️ Lägg upp grundläggande design (start / frågor / game over)
 
-#### Tillsammans: 
-- Frågor och svar randomized
+- ✔️ Lägg upp 2 testfrågor.
+- ✔️ Lägg upp grundläggande design (start / frågor / game over) asd
+
+#### Tillsammans:
+
+- ✔️ Frågor och svar randomized
 
 #### .......
+
 - beskrivningen
 - ✔️ skriv in ditt namn
 - ✔️ startknapp för quiz
 - ✔️ visa första frågan från vår array
 - ✔️ visa svarsalternativen - (men inte randomized just nu)
 - ✔️ notera om svaret är rätt eller fel
-- visa nästa fråga
-- om frågorna tar slut (✔️ layout klar)
+- visa nästa fråga efter 3 sekunder
+- om frågorna tar slut, visa totalpoäng (✔️ layout klar)
 - ✔️ visa poäng beroende på antal rätt svar
 - om tiden tar slut
-- visa game over (✔️ layout klar)
-- starta om spelet
+- ✔️ visa game over (✔️ layout klar)
+- ✔️ starta om spelet
 - mata in namn igen
 
 ### G:
-- Det ska finnas minst 10 frågor
-- Det ska finnas minst 3 svarsalternativ på varje fråga, varav 1 är rätt
-- Användaren klickar på en knapp för att visa nästa fråga
-- Frågorna ska presenteras i slumpmässig ordning
-- Det ska finnas en spela-igen-knapp. När man startar spelet på nytt ska frågorna slumpas.
-- Man ska få 1 poäng för rätt svar, och -1 poäng för fel svar
+
+- ✔️ Det ska finnas minst 10 frågor
+- ✔️ Det ska finnas minst 3 svarsalternativ på varje fråga, varav 1 är rätt
+- ✔️ Användaren klickar på en knapp för att visa nästa fråga
+- ✔️ Frågorna ska presenteras i slumpmässig ordning
+- ✔️ Det ska finnas en spela-igen-knapp. När man startar spelet på nytt ska frågorna slumpas.
+- ✔️ Man ska få 1 poäng för rätt svar, och -1 poäng för fel svar
 - I slutet ska totalpoängen visas
 
 ### VG (om vi hinner):
+
 - Olika kategorier
 - Scoreboard
 - Begränsad tid
-- 
+-
