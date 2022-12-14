@@ -1,20 +1,36 @@
-/* eslint-disable linebreak-style */
 import './style/style.scss';
 
 import quizQuestions from './questions.js';
-import { check } from 'prettier';
+// import { check } from 'prettier';
 
 const animalQuestionsEasy = quizQuestions.results;
 
-const app = document.querySelector('#app');
+const questionPage = document.querySelector('#question-page');
 
 let score = 0;
 
 const createScore = document.createElement('p');
 createScore.innerHTML = `Score: ${score}`;
-app.appendChild(createScore);
+questionPage.appendChild(createScore);
 
+const playerRegBtn = document.querySelector('#playerRegBtn');
 
+playerRegBtn.addEventListener('click', savePlayerName);
+
+function savePlayerName() {
+    
+    const playerName = document.querySelector('#playerName');
+   
+    if (playerName.value == "") {
+        const addPlayer = document.querySelector('#addPlayer');
+        const errorMsgNode = document.createElement("p");
+        const errorMsgTextNode = document.createTextNode("Fältet är tomt. Fyll i ditt namn.");
+        errorMsgNode.appendChild(errorMsgTextNode);
+        addPlayer.appendChild(errorMsgNode);
+    } else {
+        addPlayer.classList.add('hideName');
+    }
+}
 // render questions
 function renderQuestions() {
 
@@ -26,7 +42,7 @@ function renderQuestions() {
     // create container for question and answers
     const questionDiv = document.createElement('div');
     questionDiv.className = 'questionDiv';
-    app.appendChild(questionDiv);
+    questionPage.appendChild(questionDiv);
 
     // create question and append
     const questionH2 = document.createElement('h2');

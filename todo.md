@@ -1,27 +1,31 @@
 ### TO DO: 
 
 #### Anton:
-- API (objekt i en array, Frågor - sträng, svarsalternativ - sträng / boolean, ett korrekt svarsalternativ)
+- ✔️ API (objekt i en array, Frågor - sträng, svarsalternativ - sträng / boolean, ett korrekt svarsalternativ)
 
 #### Jessika: 
-- Namn och startknapp
+- ✔️ Namn och startknapp
+- Lägga upp så att frågor kommer upp 1 och 1
 
 #### Sandra:
-- Lägg upp 2 testfrågor.
-- Lägg upp grundläggande design (start / frågor / game over)
+- ✔️ Lägg upp 2 testfrågor.
+- ✔️ Lägg upp grundläggande design (start / frågor / game over)
+
+#### Tillsammans: 
+- Frågor och svar randomized
 
 #### .......
 - beskrivningen
-- skriv in ditt namn
-- startknapp för quiz
-- visa första frågan från vår array
-- visa svarsalternativen - (men inte randomized just nu)
-- notera om svaret är rätt eller fel
+- ✔️ skriv in ditt namn
+- ✔️ startknapp för quiz
+- ✔️ visa första frågan från vår array
+- ✔️ visa svarsalternativen - (men inte randomized just nu)
+- ✔️ notera om svaret är rätt eller fel
 - visa nästa fråga
-- om frågorna tar slut
-- visa poäng beroende på antal rätt svar
+- om frågorna tar slut (✔️ layout klar)
+- ✔️ visa poäng beroende på antal rätt svar
 - om tiden tar slut
-- visa game over
+- visa game over (✔️ layout klar)
 - starta om spelet
 - mata in namn igen
 
@@ -38,3 +42,4 @@
 - Olika kategorier
 - Scoreboard
 - Begränsad tid
+- 

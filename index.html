@@ -1,28 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- TODO: glöm ej att byta språk här -->
 
 <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/ico" href="/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/ico" href="/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Slackey&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
 </head>
 
 <body>
 
-  <main>
-    <div class="app" id="app"></div>
-  </main>
 
+  <section class="start-page">
 
+    <div class="logo-description-container">
+      <div class="logo-container">
+        <span class="logo" aria-hidden=true>?</span>
+        <!--question mark for decorative purpose only-->
+      </div>
+      <h1>Quiz Time!</h1>
+      <h2 id="quiz-description">Try out this QUIZ about . . . </h2>
+    </div>
 
-  <!-- TODO
-    - Validera HTML (kopiera den renderade HTML-koden): https://validator.w3.org/#validate_by_input
-    - Kontrollera tillgänglighet: https://www.a11yproject.com/checklist/ & Chrome Lighthouse/Firefox Accessibility Tools
-    - Validera genererade CSS: https://jigsaw.w3.org/css-validator/#validate_by_input
-    -->
+    <div class="player-start-container">
+      <div class="player">Name</div>
+      <div class="start">Start</div>
+      <!--OBS! la in divvar för "namn" och "knapp" bara för att testa i designen-->
+    </div>
+    <div id="addPlayer">
+      <input id=playerName>
+      <button id="playerRegBtn">Registrera namn</button>
+    </div>
+
+  </section>
+
+  <section class="question-page" id="question-page">
+
+    <div class="logo-container">
+      <span class="logo" aria-hidden=true>?</span>
+    </div>
+
+    <div class="question-container">
+      <p id="question-text"></p>
+    </div>
+
+    <div class="answers-container">
+      <button id="answer-1"></button>
+      <button id="answer-2"></button>
+      <button id="answer-3"></button>
+    </div>
+
+    <button class="next-button" id="nextBtn" aria-label="Next question.">
+      <span class="material-symbols-outlined" aria-hidden=true> arrow_circle_right </span>
+    </button>
+
+  </section>
+
+  <section class="game-over-page">
+
+    <div class="logo-container">
+      <span class="logo" aria-hidden=true>?</span>
+    </div>
+
+    <p class="game-over">Game over!</p>
+
+    <p class="points-text">You got <span id="points">10</span> points</p>
+
+    <button class="play-again" id="playAgainBtn">Play again</button>
+
+  </section>
+
   <script type="module" src="/src/main.js"></script>
 </body>
 
 </html>
+
+<!-- TODO
+  - Validera HTML (kopiera den renderade HTML-koden): https://validator.w3.org/#validate_by_input
+  - Kontrollera tillgänglighet: https://www.a11yproject.com/checklist/ & Chrome Lighthouse/Firefox Accessibility Tools
+  - Validera genererade CSS: https://jigsaw.w3.org/css-validator/#validate_by_input
+-->
