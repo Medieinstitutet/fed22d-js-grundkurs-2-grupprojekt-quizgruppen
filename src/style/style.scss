@@ -21,6 +21,13 @@
   justify-content: space-between;
 }
 
+#score {
+  position: absolute;
+  font-size: 2rem;
+  top: 15px;
+  right: 15px;
+}
+
 .hideName {
   display: none;
 }
@@ -90,6 +97,7 @@
 
 
 .question-page {
+  position: relative;
   background: var(--main-bg-color);
   min-height: 100vh;
   display: flex;
