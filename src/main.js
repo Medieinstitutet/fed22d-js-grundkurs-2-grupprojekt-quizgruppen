@@ -1,12 +1,17 @@
 import './style/style.scss';
 
-import quizQuestions from './questions.js';
+import animalQsEasy from './animals-easy.js';
+import animalQsMedium from './animals-med.js';
+import animalQsHard from './animals-hard.js';
 import { check } from 'prettier';
 
 //=================================================================================================
 //----------------------------------- VARIABLE DECLARATIONS ---------------------------------------
 //=================================================================================================
-const animalQuestionsEasy = quizQuestions.results;
+const animalQuestionsEasy = animalQsEasy.results;
+const animalQuestionsMedium = animalQsMedium.results;
+const animalQuestionsHard = animalQsHard.results;
+
 
 const playerRegBtn = document.querySelector('#playerRegBtn');
 const questionPage = document.querySelector('#question-page');
@@ -14,13 +19,15 @@ const gameOverPage = document.querySelector('#game-over-page')
 const questionText = document.querySelector('#question-text');
 const answerBtns = document.querySelectorAll('.answer-btn');
 const playAgainBtn = document.querySelector('#playAgainBtn');
+const startPage = document.querySelector('#start-page');
+const categoryPage = document.querySelector('#category-page');
 
 let questionCounter = 0;
 
-// questions and answers
-let question = animalQuestionsEasy[questionCounter].question;
-let correctAnswer = animalQuestionsEasy[questionCounter].correct_answer;
-let incorrectAnswers = animalQuestionsEasy[questionCounter].incorrect_answers;
+// questions and answers (chosen at start screen)
+let question = null;
+let correctAnswer = null;
+let incorrectAnswers = null;
 
 // score
 const scoreText = document.querySelector('#score');
@@ -32,18 +39,41 @@ let score = 0;
 
 // player name
 function savePlayerName() {
-    
+
     const playerName = document.querySelector('#playerName');
-   
+
     if (playerName.value == "") {
-        const addPlayer = document.querySelector('#addPlayer');
-        const errorMsgNode = document.createElement("p");
-        const errorMsgTextNode = document.createTextNode("Fältet är tomt. Fyll i ditt namn.");
-        errorMsgNode.appendChild(errorMsgTextNode);
-        addPlayer.appendChild(errorMsgNode);
+        const errorMsgNode = document.querySelector('#errorMsgNode')
+        errorMsgNode.innerHTML = 'Fältet är tomt. Fyll i ditt namn.';
     } else {
         addPlayer.classList.add('hideName');
+        renderCategoryPage();
     }
+}
+
+function renderCategoryPage() {
+  startPage.style.display = 'none';
+  categoryPage.style.display = 'block';
+}
+
+function difficultyChoice(e) {
+  const choice = e.currentTarget.innerHTML;
+
+  if (choice == 'Easy') {
+    question = animalQuestionsEasy[questionCounter].question;
+    correctAnswer = animalQuestionsEasy[questionCounter].correct_answer;
+    incorrectAnswers = animalQuestionsEasy[questionCounter].incorrect_answers;
+  } else if (choice == 'Medium') {
+    question = animalQuestionsMedium[questionCounter].question;
+    correctAnswer = animalQuestionsMedium[questionCounter].correct_answer;
+    incorrectAnswers = animalQuestionsMedium[questionCounter].incorrect_answers;
+  } else if (choice == 'Hard') {
+    question = animalQuestionsHard[questionCounter].question;
+    correctAnswer = animalQuestionsHard[questionCounter].correct_answer;
+    incorrectAnswers = animalQuestionsHard[questionCounter].incorrect_answers;
+  }
+  categoryPage.style.display = 'none';
+  renderQuestions();
 }
 
 // generate random number 0-3
@@ -62,10 +92,6 @@ function renderQuestions() {
   }
   
   scoreText.innerHTML = `Score: ${score}`;
-
-  question = animalQuestionsEasy[questionCounter].question;
-  correctAnswer = animalQuestionsEasy[questionCounter].correct_answer;
-  incorrectAnswers = animalQuestionsEasy[questionCounter].incorrect_answers;
 
   // render question
   questionText.innerHTML = question;
@@ -132,6 +158,11 @@ function checkAnswer(e) {
 // player name
 playerRegBtn.addEventListener('click', savePlayerName);
 
+// difficulty
+document.querySelector('#easy-btn').addEventListener('click', difficultyChoice);
+document.querySelector('#medium-btn').addEventListener('click', difficultyChoice);
+document.querySelector('#hard-btn').addEventListener('click', difficultyChoice);
+
 // play again
 playAgainBtn.addEventListener('click', restartGame);
 
@@ -139,5 +170,3 @@ playAgainBtn.addEventListener('click', restartGame);
 answerBtns.forEach(btn => {
   btn.addEventListener('click', checkAnswer);
 })
-
-renderQuestions();
