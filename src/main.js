@@ -29,6 +29,8 @@ let question = null;
 let correctAnswer = null;
 let incorrectAnswers = null;
 
+let difficulty = null;
+
 // score
 const scoreText = document.querySelector('#score');
 let score = 0;
@@ -51,26 +53,27 @@ function savePlayerName() {
     }
 }
 
+function init() {
+  startPage.style.display = 'flex';
+  categoryPage.style.display = 'none';
+  questionPage.style.display = 'none';
+  gameOverPage.style.display = 'none';
+}
+
 function renderCategoryPage() {
   startPage.style.display = 'none';
-  categoryPage.style.display = 'block';
+  categoryPage.style.display = 'flex';
 }
 
 function difficultyChoice(e) {
   const choice = e.currentTarget.innerHTML;
 
-  if (choice == 'Easy') {
-    question = animalQuestionsEasy[questionCounter].question;
-    correctAnswer = animalQuestionsEasy[questionCounter].correct_answer;
-    incorrectAnswers = animalQuestionsEasy[questionCounter].incorrect_answers;
-  } else if (choice == 'Medium') {
-    question = animalQuestionsMedium[questionCounter].question;
-    correctAnswer = animalQuestionsMedium[questionCounter].correct_answer;
-    incorrectAnswers = animalQuestionsMedium[questionCounter].incorrect_answers;
-  } else if (choice == 'Hard') {
-    question = animalQuestionsHard[questionCounter].question;
-    correctAnswer = animalQuestionsHard[questionCounter].correct_answer;
-    incorrectAnswers = animalQuestionsHard[questionCounter].incorrect_answers;
+  if (choice.toLowerCase() == 'easy') {
+    difficulty = 'easy';
+  } else if (choice.toLowerCase() == 'medium') {
+    difficulty = 'medium';
+  } else if (choice.toLowerCase() == 'hard') {
+    difficulty = 'hard';
   }
   categoryPage.style.display = 'none';
   renderQuestions();
@@ -84,11 +87,27 @@ function randomNumber() {
 // render questions
 function renderQuestions() {
 
+  // reset question counter
   if (questionCounter >= 10) {
-    return;
+    questionCounter = 0;
+    questionPage.style.display = 'none';
+    gameOverPage.style.display = 'flex';
   } else {
     questionPage.style.display = 'flex';
-    gameOverPage.style.display = 'none';
+  }
+
+  if (difficulty == 'easy') {
+    question = animalQuestionsEasy[questionCounter].question;
+    correctAnswer = animalQuestionsEasy[questionCounter].correct_answer;
+    incorrectAnswers = animalQuestionsEasy[questionCounter].incorrect_answers;
+  } else if (difficulty == 'medium') {
+    question = animalQuestionsMedium[questionCounter].question;
+    correctAnswer = animalQuestionsMedium[questionCounter].correct_answer;
+    incorrectAnswers = animalQuestionsMedium[questionCounter].incorrect_answers;
+  } else if (difficulty == 'hard') {
+    chosenQuestionDif = animalQuestionsHard[questionCounter].question;
+    chosenCorrectAnswerDif = animalQuestionsHard[questionCounter].correct_answer;
+    chosenIncorrectAnswersDif = animalQuestionsHard[questionCounter].incorrect_answers;
   }
   
   scoreText.innerHTML = `Score: ${score}`;
@@ -124,7 +143,7 @@ function clearClasses() {
 function restartGame() {
   score = 0;
   questionCounter = 0;
-  renderQuestions();
+  init();
 }
 
 // check if answer is correct, add 1 score if true
@@ -138,17 +157,17 @@ function checkAnswer(e) {
     console.log('Incorrect answer!')
   }
 
+  clearClasses();
+
   if(questionCounter < 10) {
-    questionPage.style.display = 'flex';
-    gameOverPage.style.display = 'none';
-    questionCounter++;
+    questionCounter = questionCounter + 1;
+    console.log(questionCounter);
     renderQuestions();
   } else {
     questionPage.style.display = 'none';
     gameOverPage.style.display = 'flex';
     questionCounter = 0;
   }
-  clearClasses();
 }
 
 //=================================================================================================
@@ -170,3 +189,5 @@ playAgainBtn.addEventListener('click', restartGame);
 answerBtns.forEach(btn => {
   btn.addEventListener('click', checkAnswer);
 })
+
+init();
