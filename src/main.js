@@ -68,11 +68,7 @@ function savePlayerName() {
 
 function init() {
   questionCounter = 0;
-  startPage.style.display = 'flex';
-  categoryPage.style.display = 'none';
-  difficultyPage.style.display = 'none';
-  questionPage.style.display = 'none';
-  gameOverPage.style.display = 'none';
+  score = 0;
 }
 
 function renderCategoryPage() {
@@ -117,7 +113,7 @@ function randomNumber() {
   return Math.floor(Math.random() * 3);
 }
 
-// category & difficulty
+// check which category & difficulty
 function chosenQuiz() {
   if (category == 'animals') {
     if (difficulty == 'easy') {
