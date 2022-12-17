@@ -3,6 +3,12 @@ import './style/style.scss';
 import animalQsEasy from './animals-easy.js';
 import animalQsMedium from './animals-med.js';
 import animalQsHard from './animals-hard.js';
+import geographyQsEasy from './geography-easy.js';
+import geographyQsMedium from './geography-medium.js';
+import geographyQsHard from './geography-hard.js';
+import computerQsEasy from './computer-easy.js';
+import computerQsMedium from './computer-medium.js';
+import computerQsHard from './computer-hard.js';
 import { check } from 'prettier';
 
 //=================================================================================================
@@ -11,29 +17,37 @@ import { check } from 'prettier';
 const animalQuestionsEasy = animalQsEasy.results;
 const animalQuestionsMedium = animalQsMedium.results;
 const animalQuestionsHard = animalQsHard.results;
+const geographyQuestionsEasy = geographyQsEasy.results;
+const geographyQuestionsMedium = geographyQsMedium.results;
+const geographyQuestionsHard = geographyQsHard.results;
+const computerQuestionsEasy = computerQsEasy.results;
+const computerQuestionsMedium = computerQsMedium.results;
+const computerQuestionsHard = computerQsHard.results;
 
+const questionPage = document.querySelector('#question-page');
+const gameOverPage = document.querySelector('#game-over-page');
+const startPage = document.querySelector('#start-page');
+const difficultyPage = document.querySelector('#difficulty-page');
+const categoryPage = document.querySelector('#category-page');
 
 const playerRegBtn = document.querySelector('#playerRegBtn');
-const questionPage = document.querySelector('#question-page');
-const gameOverPage = document.querySelector('#game-over-page')
 const questionText = document.querySelector('#question-text');
 const answerBtns = document.querySelectorAll('.answer-btn');
 const playAgainBtn = document.querySelector('#playAgainBtn');
-const startPage = document.querySelector('#start-page');
-const categoryPage = document.querySelector('#category-page');
 
-let questionCounter = 0;
-
-// questions and answers (chosen at start screen)
+// category and difficulty (chosen at start screen)
+let difficulty = null;
+let category = null;
 let question = null;
 let correctAnswer = null;
 let incorrectAnswers = null;
 
-let difficulty = null;
-
 // score
 const scoreText = document.querySelector('#score');
 let score = 0;
+
+// keep track of current question
+let questionCounter = 0;
 
 //=================================================================================================
 //----------------------------------- FUNCTION DECLARATIONS ---------------------------------------
@@ -41,7 +55,6 @@ let score = 0;
 
 // player name
 function savePlayerName() {
-
     const playerName = document.querySelector('#playerName');
 
     if (playerName.value == "") {
@@ -54,8 +67,10 @@ function savePlayerName() {
 }
 
 function init() {
+  questionCounter = 0;
   startPage.style.display = 'flex';
   categoryPage.style.display = 'none';
+  difficultyPage.style.display = 'none';
   questionPage.style.display = 'none';
   gameOverPage.style.display = 'none';
 }
@@ -63,6 +78,24 @@ function init() {
 function renderCategoryPage() {
   startPage.style.display = 'none';
   categoryPage.style.display = 'flex';
+}
+
+function categoryChoice(e) {
+  const choice = e.currentTarget.innerHTML;
+
+  if (choice.toLowerCase() == 'animals') {
+    category = 'animals';
+  } else if (choice.toLowerCase() == 'geography') {
+    category = 'geography';
+  } else if (choice.toLowerCase() == 'computer') {
+    category = 'computer';
+  }
+  renderDifficultyPage();
+}
+
+function renderDifficultyPage() {
+  categoryPage.style.display = 'none';
+  difficultyPage.style.display = 'flex';
 }
 
 function difficultyChoice(e) {
@@ -75,7 +108,7 @@ function difficultyChoice(e) {
   } else if (choice.toLowerCase() == 'hard') {
     difficulty = 'hard';
   }
-  categoryPage.style.display = 'none';
+  difficultyPage.style.display = 'none';
   renderQuestions();
 }
 
@@ -84,32 +117,65 @@ function randomNumber() {
   return Math.floor(Math.random() * 3);
 }
 
+// category & difficulty
+function chosenQuiz() {
+  if (category == 'animals') {
+    if (difficulty == 'easy') {
+      question = animalQuestionsEasy[questionCounter].question;
+      correctAnswer = animalQuestionsEasy[questionCounter].correct_answer;
+      incorrectAnswers = animalQuestionsEasy[questionCounter].incorrect_answers;
+    } else if (difficulty == 'medium') {
+      question = animalQuestionsMedium[questionCounter].question;
+      correctAnswer = animalQuestionsMedium[questionCounter].correct_answer;
+      incorrectAnswers = animalQuestionsMedium[questionCounter].incorrect_answers;
+    } else if (difficulty == 'hard') {
+      question = animalQuestionsHard[questionCounter].question;
+      correctAnswer = animalQuestionsHard[questionCounter].correct_answer;
+      incorrectAnswers = animalQuestionsHard[questionCounter].incorrect_answers;
+    } 
+  } else if (category == 'geography') {
+    if (difficulty == 'easy') {
+      question = geographyQuestionsEasy[questionCounter].question;
+      correctAnswer = geographyQuestionsEasy[questionCounter].correct_answer;
+      incorrectAnswers = geographyQuestionsEasy[questionCounter].incorrect_answers;
+    } else if (difficulty == 'medium') {
+      question = geographyQuestionsMedium[questionCounter].question;
+      correctAnswer = geographyQuestionsMedium[questionCounter].correct_answer;
+      incorrectAnswers = geographyQuestionsMedium[questionCounter].incorrect_answers;
+    } else if (difficulty == 'hard') {
+      question = geographyQuestionsHard[questionCounter].question;
+      correctAnswer = geographyQuestionsHard[questionCounter].correct_answer;
+      incorrectAnswers = geographyQuestionsHard[questionCounter].incorrect_answers;
+    } 
+  } else if (category == 'computer') {
+    if (difficulty == 'easy') {
+      question = computerQuestionsEasy[questionCounter].question;
+      correctAnswer = computerQuestionsEasy[questionCounter].correct_answer;
+      incorrectAnswers = computerQuestionsEasy[questionCounter].incorrect_answers;
+    } else if (difficulty == 'medium') {
+      question = computerQuestionsMedium[questionCounter].question;
+      correctAnswer = computerQuestionsMedium[questionCounter].correct_answer;
+      incorrectAnswers = computerQuestionsMedium[questionCounter].incorrect_answers;
+    } else if (difficulty == 'hard') {
+      question = computerQuestionsHard[questionCounter].question;
+      correctAnswer = computerQuestionsHard[questionCounter].correct_answer;
+      incorrectAnswers = computerQuestionsHard[questionCounter].incorrect_answers;
+    } 
+  }
+}
+
 // render questions
 function renderQuestions() {
 
   // reset question counter
   if (questionCounter >= 10) {
-    questionCounter = 0;
-    questionPage.style.display = 'none';
-    gameOverPage.style.display = 'flex';
+    init();
   } else {
     questionPage.style.display = 'flex';
   }
+   
+  chosenQuiz();
 
-  if (difficulty == 'easy') {
-    question = animalQuestionsEasy[questionCounter].question;
-    correctAnswer = animalQuestionsEasy[questionCounter].correct_answer;
-    incorrectAnswers = animalQuestionsEasy[questionCounter].incorrect_answers;
-  } else if (difficulty == 'medium') {
-    question = animalQuestionsMedium[questionCounter].question;
-    correctAnswer = animalQuestionsMedium[questionCounter].correct_answer;
-    incorrectAnswers = animalQuestionsMedium[questionCounter].incorrect_answers;
-  } else if (difficulty == 'hard') {
-    chosenQuestionDif = animalQuestionsHard[questionCounter].question;
-    chosenCorrectAnswerDif = animalQuestionsHard[questionCounter].correct_answer;
-    chosenIncorrectAnswersDif = animalQuestionsHard[questionCounter].incorrect_answers;
-  }
-  
   scoreText.innerHTML = `Score: ${score}`;
 
   // render question
@@ -166,7 +232,6 @@ function checkAnswer(e) {
   } else {
     questionPage.style.display = 'none';
     gameOverPage.style.display = 'flex';
-    questionCounter = 0;
   }
 }
 
@@ -178,6 +243,10 @@ function checkAnswer(e) {
 playerRegBtn.addEventListener('click', savePlayerName);
 
 // difficulty
+document.querySelector('#animals-btn').addEventListener('click', categoryChoice);
+document.querySelector('#geography-btn').addEventListener('click', categoryChoice);
+document.querySelector('#computer-btn').addEventListener('click', categoryChoice);
+
 document.querySelector('#easy-btn').addEventListener('click', difficultyChoice);
 document.querySelector('#medium-btn').addEventListener('click', difficultyChoice);
 document.querySelector('#hard-btn').addEventListener('click', difficultyChoice);
