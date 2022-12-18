@@ -24,16 +24,27 @@ const computerQuestionsEasy = computerQsEasy.results;
 const computerQuestionsMedium = computerQsMedium.results;
 const computerQuestionsHard = computerQsHard.results;
 
+const allPages = document.querySelectorAll('.page');
 const questionPage = document.querySelector('#question-page');
 const gameOverPage = document.querySelector('#game-over-page');
 const startPage = document.querySelector('#start-page');
 const difficultyPage = document.querySelector('#difficulty-page');
 const categoryPage = document.querySelector('#category-page');
+const highscorePage = document.querySelector('#highscore-page');
 
 const playerRegBtn = document.querySelector('#playerRegBtn');
+const scoreText = document.querySelector('#score');
 const questionText = document.querySelector('#question-text');
 const answerBtns = document.querySelectorAll('.answer-btn');
 const playAgainBtn = document.querySelector('#playAgainBtn');
+const highscoreBtns = document.querySelectorAll('.highscore-btn');
+
+const pointsScore = document.querySelector('#points');
+const highscores = JSON.parse(localStorage.getItem('highscores')) || [];
+
+// player
+let currentName = null;
+let currentScore = 0;
 
 // category and difficulty (chosen at start screen)
 let difficulty = null;
@@ -41,10 +52,6 @@ let category = null;
 let question = null;
 let correctAnswer = null;
 let incorrectAnswers = null;
-
-// score
-const scoreText = document.querySelector('#score');
-let score = 0;
 
 // keep track of current question
 let questionCounter = 0;
@@ -55,20 +62,30 @@ let questionCounter = 0;
 
 // player name
 function savePlayerName() {
-    const playerName = document.querySelector('#playerName');
+  const playerName = document.querySelector('#playerName');
+  const nameRegEx = /^[a-zA-Z-]+$/;
 
-    if (playerName.value == "") {
-        const errorMsgNode = document.querySelector('#errorMsgNode')
-        errorMsgNode.innerHTML = 'Fältet är tomt. Fyll i ditt namn.';
-    } else {
-        addPlayer.classList.add('hideName');
-        renderCategoryPage();
-    }
+  if (playerName.value == "" || !playerName.value.match(nameRegEx)) {
+      const errorMsgNode = document.querySelector('#errorMsgNode')
+      errorMsgNode.innerHTML = 'Please enter a valid name.';
+  } else {
+      currentName = playerName.value;
+      renderCategoryPage();
+  }
+}
+
+class playerData {
+  constructor(name, score) {
+    this.name = name;
+    this.score = score;
+  }
 }
 
 function init() {
   questionCounter = 0;
-  score = 0;
+  currentScore = 0;
+  gameOverPage.style.display = 'none';
+  startPage.style.display = 'flex';
 }
 
 function renderCategoryPage() {
@@ -172,7 +189,7 @@ function renderQuestions() {
    
   chosenQuiz();
 
-  scoreText.innerHTML = `Score: ${score}`;
+  scoreText.innerHTML = `Score: ${currentScore}`;
 
   // render question
   questionText.innerHTML = question;
@@ -203,9 +220,29 @@ function clearClasses() {
 
 // play again
 function restartGame() {
-  score = 0;
-  questionCounter = 0;
   init();
+}
+
+// render highscore page
+function renderHighscores() {
+  allPages.forEach(page => {
+    if (page.className[0] != 'highscore-page') {
+      page.style.display = 'none';
+    }
+  });
+  highscorePage.style.display = 'flex';
+}
+
+// highscore
+function setHighscore() {
+
+  const newScore = new playerData(currentName, currentScore);
+  
+  highscores.push(newScore);
+  highscores.sort((a, b) => b.score - a.score);
+  highscores.splice(10);
+
+  localStorage.setItem('highscores', JSON.stringify(highscores));
 }
 
 // check if answer is correct, add 1 score if true
@@ -213,19 +250,23 @@ function checkAnswer(e) {
   const myAnswer = e.currentTarget.innerHTML;
 
   if (myAnswer == correctAnswer) {
-    score = score + 1;
+    currentScore += 1;
     console.log('Correct answer!');
-  } else if (myAnswer == incorrectAnswers[0] || incorrectAnswers[1] || incorrectAnswers[2]) {
+  } else if (myAnswer == incorrectAnswers[0] || incorrectAnswers[1] || incorrectAnswers[2] && currentScore > 0) {
+    currentScore -= 1;
     console.log('Incorrect answer!')
   }
 
   clearClasses();
 
-  if(questionCounter < 10) {
+  if(questionCounter < 9) {
     questionCounter = questionCounter + 1;
     console.log(questionCounter);
+    console.log(player);
     renderQuestions();
   } else {
+    pointsScore.innerHTML = `${currentScore}`;
+    setHighscore();
     questionPage.style.display = 'none';
     gameOverPage.style.display = 'flex';
   }
@@ -238,11 +279,12 @@ function checkAnswer(e) {
 // player name
 playerRegBtn.addEventListener('click', savePlayerName);
 
-// difficulty
+// category
 document.querySelector('#animals-btn').addEventListener('click', categoryChoice);
 document.querySelector('#geography-btn').addEventListener('click', categoryChoice);
 document.querySelector('#computer-btn').addEventListener('click', categoryChoice);
 
+// difficulty
 document.querySelector('#easy-btn').addEventListener('click', difficultyChoice);
 document.querySelector('#medium-btn').addEventListener('click', difficultyChoice);
 document.querySelector('#hard-btn').addEventListener('click', difficultyChoice);
@@ -253,6 +295,10 @@ playAgainBtn.addEventListener('click', restartGame);
 // check answers
 answerBtns.forEach(btn => {
   btn.addEventListener('click', checkAnswer);
+})
+
+highscoreBtns.forEach(btn => {
+  btn.addEventListener('click', renderHighscores);
 })
 
 init();
