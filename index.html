@@ -29,10 +29,10 @@
     </div>
 
     <div id="addPlayer" class="player-start-container">
-      <button class="choice-btn highscore-btn">View highscores</button>
       <input id=playerName class="player" placeholder="Name" aria-label="Input your name">
       <button id="playerRegBtn" class="start" aria-label="Start game">Start</button>
       <p id="errorMsgNode"></p>
+      <button class="choice-btn highscore-btn">View highscores</button>
     </div>
   </section>
 
@@ -71,7 +71,8 @@
 
   <section class="highscore-page page" id="highscore-page">
     <h2>Highscores</h2>
-    <ol class="highscore-list"></ol>
+    <ol class="highscore-list" id="highscore-list"></ol>
+    <button class="choice-btn" id="back-btn">Back</button>
   </section>
 
   <section class="game-over-page page" id="game-over-page">

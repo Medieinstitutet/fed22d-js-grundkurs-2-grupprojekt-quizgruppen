@@ -40,6 +40,8 @@ const playAgainBtn = document.querySelector('#playAgainBtn');
 const highscoreBtns = document.querySelectorAll('.highscore-btn');
 
 const pointsScore = document.querySelector('#points');
+
+const highscoreList = document.querySelector('#highscore-list');
 const highscores = JSON.parse(localStorage.getItem('highscores')) || [];
 
 // player
@@ -60,10 +62,27 @@ let questionCounter = 0;
 //----------------------------------- FUNCTION DECLARATIONS ---------------------------------------
 //=================================================================================================
 
+// initiate quiz
+function init() {
+  questionCounter = 0;
+  currentName = "";
+  currentScore = 0;
+  gameOverPage.style.display = 'none';
+  startPage.style.display = 'flex';
+}
+
+// player information
+class playerData {
+  constructor(name, score) {
+    this.name = name;
+    this.score = score;
+  }
+}
+
 // player name
 function savePlayerName() {
   const playerName = document.querySelector('#playerName');
-  const nameRegEx = /^[a-zA-Z-]+$/;
+  const nameRegEx = /^[a-zA-ZåäöÅÄÖ-]+$/;
 
   if (playerName.value == "" || !playerName.value.match(nameRegEx)) {
       const errorMsgNode = document.querySelector('#errorMsgNode')
@@ -72,20 +91,6 @@ function savePlayerName() {
       currentName = playerName.value;
       renderCategoryPage();
   }
-}
-
-class playerData {
-  constructor(name, score) {
-    this.name = name;
-    this.score = score;
-  }
-}
-
-function init() {
-  questionCounter = 0;
-  currentScore = 0;
-  gameOverPage.style.display = 'none';
-  startPage.style.display = 'flex';
 }
 
 function renderCategoryPage() {
@@ -186,9 +191,11 @@ function renderQuestions() {
   } else {
     questionPage.style.display = 'flex';
   }
-   
+
+  // check which quiz is chosen
   chosenQuiz();
 
+  // render score
   scoreText.innerHTML = `Score: ${currentScore}`;
 
   // render question
@@ -224,7 +231,18 @@ function restartGame() {
 }
 
 // render highscore page
+function renderStartPage() {
+  allPages.forEach(page => {
+    if (page.className[0] != 'start-page') {
+      page.style.display = 'none';
+    }
+  });
+  startPage.style.display = 'flex';
+}
+
+// render highscore page
 function renderHighscores() {
+  addHighscore();
   allPages.forEach(page => {
     if (page.className[0] != 'highscore-page') {
       page.style.display = 'none';
@@ -235,7 +253,6 @@ function renderHighscores() {
 
 // highscore
 function setHighscore() {
-
   const newScore = new playerData(currentName, currentScore);
   
   highscores.push(newScore);
@@ -243,6 +260,16 @@ function setHighscore() {
   highscores.splice(10);
 
   localStorage.setItem('highscores', JSON.stringify(highscores));
+
+  addHighscore();
+}
+
+// add to highscores
+function addHighscore() {
+  highscoreList.innerHTML = highscores.map(score => {
+    return `<li>${score.name}: ${score.score}`;
+  })
+  .join("");
 }
 
 // check if answer is correct, add 1 score if true
@@ -252,7 +279,7 @@ function checkAnswer(e) {
   if (myAnswer == correctAnswer) {
     currentScore += 1;
     console.log('Correct answer!');
-  } else if (myAnswer == incorrectAnswers[0] || incorrectAnswers[1] || incorrectAnswers[2] && currentScore > 0) {
+  } else if ((myAnswer == incorrectAnswers[0] || incorrectAnswers[1] || incorrectAnswers[2]) && currentScore > 0) {
     currentScore -= 1;
     console.log('Incorrect answer!')
   }
@@ -261,8 +288,6 @@ function checkAnswer(e) {
 
   if(questionCounter < 9) {
     questionCounter = questionCounter + 1;
-    console.log(questionCounter);
-    console.log(player);
     renderQuestions();
   } else {
     pointsScore.innerHTML = `${currentScore}`;
@@ -288,6 +313,9 @@ document.querySelector('#computer-btn').addEventListener('click', categoryChoice
 document.querySelector('#easy-btn').addEventListener('click', difficultyChoice);
 document.querySelector('#medium-btn').addEventListener('click', difficultyChoice);
 document.querySelector('#hard-btn').addEventListener('click', difficultyChoice);
+
+// go back btn
+document.querySelector('#back-btn').addEventListener('click', renderStartPage);
 
 // play again
 playAgainBtn.addEventListener('click', restartGame);
