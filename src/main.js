@@ -9,6 +9,9 @@ import { check } from 'prettier';
 const animalQuestionsEasy = quizQuestions.results;
 
 const playerRegBtn = document.querySelector('#playerRegBtn');
+const playerRegMsg = document.createElement("p");
+const startGameBtn = document.querySelector('#start-game-button');
+const startPage = document.querySelector('#start-page');
 const questionPage = document.querySelector('#question-page');
 const gameOverPage = document.querySelector('#game-over-page')
 const questionText = document.querySelector('#question-text');
@@ -30,20 +33,40 @@ let score = 0;
 //----------------------------------- FUNCTION DECLARATIONS ---------------------------------------
 //=================================================================================================
 
+// init function to run on page load
+function init() {
+  startPage.style.display = 'flex';
+  questionPage.style.display = 'none';
+  gameOverPage.style.display = 'none';
+}
+
 // player name
 function savePlayerName() {
-    
-    const playerName = document.querySelector('#playerName');
-   
-    if (playerName.value == "") {
-        const addPlayer = document.querySelector('#addPlayer');
-        const errorMsgNode = document.createElement("p");
-        const errorMsgTextNode = document.createTextNode("Fältet är tomt. Fyll i ditt namn.");
-        errorMsgNode.appendChild(errorMsgTextNode);
-        addPlayer.appendChild(errorMsgNode);
-    } else {
-        addPlayer.classList.add('hideName');
-    }
+
+  const playerName = document.querySelector('#playerName');
+
+  if (playerName.value == "") {
+    playerRegMsg.innerHTML = "Please write your name";
+    addPlayer.append(playerRegMsg);
+  } else {
+    playerRegMsg.innerHTML = `Hello ${playerName.value}, press start to play!`;
+    addPlayer.append(playerRegMsg);
+  }
+}
+
+// start quiz button
+const startQuiz = () => {
+
+  const playerName = document.querySelector('#playerName');
+
+  if (playerName.value == "") {
+    savePlayerName();
+    return;
+  }
+  renderQuestions()
+  startPage.style.display = 'none';
+  questionPage.style.display = 'flex';
+  gameOverPage.style.display = 'none';
 }
 
 // generate random number 0-3
@@ -60,7 +83,7 @@ function renderQuestions() {
     questionPage.style.display = 'flex';
     gameOverPage.style.display = 'none';
   }
-  
+
   scoreText.innerHTML = `Score: ${score}`;
 
   question = animalQuestionsEasy[questionCounter].question;
@@ -98,7 +121,7 @@ function clearClasses() {
 function restartGame() {
   score = 0;
   questionCounter = 0;
-  renderQuestions();
+  init();
 }
 
 // check if answer is correct, add 1 score if true
@@ -112,7 +135,7 @@ function checkAnswer(e) {
     console.log('Incorrect answer!')
   }
 
-  if(questionCounter < 10) {
+  if (questionCounter < 9) {
     questionPage.style.display = 'flex';
     gameOverPage.style.display = 'none';
     questionCounter++;
@@ -129,6 +152,12 @@ function checkAnswer(e) {
 //-------------------------------------- PROGRAM LOGIC --------------------------------------------
 //=================================================================================================
 
+// calls init function to run on page load
+init();
+
+// start quiz
+startGameBtn.addEventListener('click', startQuiz);
+
 // player name
 playerRegBtn.addEventListener('click', savePlayerName);
 
@@ -139,5 +168,3 @@ playAgainBtn.addEventListener('click', restartGame);
 answerBtns.forEach(btn => {
   btn.addEventListener('click', checkAnswer);
 })
-
-renderQuestions();

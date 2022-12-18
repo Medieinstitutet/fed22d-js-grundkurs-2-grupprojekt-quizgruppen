@@ -68,22 +68,44 @@
   font-size: 1rem;
 }
 
+.player-start-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .player {
   background-color: white;
   color: black;
-  margin-top: 50px;
+  margin-top: 30px;
+}
+
+.register-name-button {
+  background: rgba(255, 255, 255, 0.699);
+  padding: 3px 10px;
+  border: none;
+  font-size: 0.9rem;
+  color: black;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+
+.register-name-button:hover {
+  background: rgb(255, 174, 0);
 }
 
 .start {
   background: linear-gradient(rgb(246, 201, 77), rgb(219, 135, 9), rgb(235, 61, 8));
   padding: 10px 50px;
   border-radius: 50px;
+  border: none;
   margin: 20px;
   margin-bottom: 50px;
   font-size: 1.3rem;
   font-weight: bold;
   letter-spacing: 0.1rem;
   text-transform: uppercase;
+  color: white;
 }
 
 .start:hover {
@@ -144,7 +166,8 @@
   margin-top: 70px;
 }
 
-.material-symbols-outlined { //arrow symbol for next question button
+//arrow symbol for next question button
+.material-symbols-outlined {
   font-size: 4.5rem;
   color: rgb(255, 255, 255);
 }
