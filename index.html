@@ -17,7 +17,7 @@
 <body>
 
 
-  <section class="start-page" id="start-page">
+  <section class="start-page page" id="start-page">
 
     <div class="logo-description-container">
       <div class="logo-container">
@@ -28,25 +28,34 @@
       <h2 id="quiz-description">Try out this QUIZ about . . . </h2>
     </div>
 
-    <div class="player-start-container">
-      <div class="player">Name</div>
-      <div class="start">Start</div>
-      <!--OBS! la in divvar för "namn" och "knapp" bara för att testa i designen-->
+    <div id="addPlayer" class="player-start-container">
+      <input id=playerName class="player" placeholder="Name" aria-label="Input your name">
+      <button id="playerRegBtn" class="start" aria-label="Start game">Start</button>
+      <p id="errorMsgNode"></p>
+      <button class="choice-btn highscore-btn">View highscores</button>
     </div>
-    <div id="addPlayer">
-      <input id=playerName>
-      <button id="playerRegBtn">Registrera namn</button>
-    </div>
-
   </section>
 
-  <section class="question-page" id="question-page">
+  <section class="category-page page" id="category-page">
+    <h2>Category</h2>
+    <button id="animals-btn" class="choice-btn" aria-label="Animal questions">Animals</button>
+    <button id="geography-btn" class="choice-btn" aria-label="Geography questions">Geography</button>
+    <button id="computer-btn" class="choice-btn" aria-label="Computer questions">Computer</button>
+  </section>
 
+  <section class="difficulty-page page" id="difficulty-page">
+    <h2>Difficulty</h2>
+    <button id="easy-btn" class="choice-btn" aria-label="Easy difficulty">Easy</button>
+    <button id="medium-btn" class="choice-btn" aria-label="Medium difficulty">Medium</button>
+    <button id="hard-btn" class="choice-btn" aria-label="Hard difficulty">Hard</button>
+  </section>
+
+  <section class="question-page page" id="question-page">
     <div class="logo-container">
       <span class="logo" aria-hidden=true>?</span>
     </div>
 
-    <div id="score"></div>
+    <div id="score" class="score"></div>
 
     <div class="question-container">
       <p id="question-text"></p>
@@ -58,11 +67,15 @@
       <button class="answer-btn"></button>
       <button class="answer-btn"></button>
     </div>
-
   </section>
 
-  <section class="game-over-page" id="game-over-page">
+  <section class="highscore-page page" id="highscore-page">
+    <h2>Highscores</h2>
+    <ol class="highscore-list" id="highscore-list"></ol>
+    <button class="choice-btn" id="back-btn">Back</button>
+  </section>
 
+  <section class="game-over-page page" id="game-over-page">
     <div class="logo-container">
       <span class="logo" aria-hidden=true>?</span>
     </div>
@@ -71,8 +84,9 @@
 
     <p class="points-text">You got <span id="points"></span> points</p>
 
-    <button class="play-again" id="playAgainBtn">Play again</button>
+    <button class="choice-btn highscore-btn">View highscores</button>
 
+    <button class="play-again" id="playAgainBtn">Play again</button>
   </section>
 
   <script type="module" src="/src/main.js"></script>

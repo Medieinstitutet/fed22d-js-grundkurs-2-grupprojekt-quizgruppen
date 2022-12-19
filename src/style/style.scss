@@ -18,14 +18,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
 }
 
-#score {
+.score {
   position: absolute;
   font-size: 2rem;
   top: 15px;
   right: 15px;
+}
+
+.player-start-container {
+  text-align: center;
 }
 
 .hideName {
@@ -64,6 +67,10 @@
   font-size: 4.5rem;
 }
 
+button {
+  border: none;
+}
+
 .logo-description-container h2 {
   font-size: 1rem;
 }
@@ -84,11 +91,66 @@
   font-weight: bold;
   letter-spacing: 0.1rem;
   text-transform: uppercase;
+  color: white;
 }
 
 .start:hover {
   background: linear-gradient(rgb(255, 232, 25), rgb(253, 138, 51));
   color: black;
+}
+
+.category-page, .difficulty-page {
+  background: var(--main-bg-color);
+  min-height: 100vh;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  position: relative;
+
+  h2 {
+    position: absolute;
+    top: 40px;
+    font-size: 3rem;
+    text-decoration: underline;
+  }
+}
+
+.highscore-page {
+  background: var(--main-bg-color);
+  min-height: 100vh;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+
+  h2 {
+    position: absolute;
+    top: 40px;
+    font-size: 3rem;
+    text-decoration: underline;
+  }
+
+  ol {
+    font-size: 2rem;
+  }
+}
+
+.choice-btn {
+  background: linear-gradient(rgb(246, 201, 77), rgb(219, 135, 9), rgb(235, 61, 8));
+  color: white;
+  padding: 10px 50px;
+  border-radius: 50px;
+  margin: 20px;
+  margin-bottom: 50px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+  width: 200px;
 }
 
 //=================================================================================================
@@ -100,7 +162,7 @@
   position: relative;
   background: var(--main-bg-color);
   min-height: 100vh;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   padding-top: 60px;
@@ -164,7 +226,7 @@
   background: var(--main-bg-color);
   min-height: 100vh;
   padding-top: 60px;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
