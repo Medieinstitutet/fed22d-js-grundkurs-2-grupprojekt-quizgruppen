@@ -1,5 +1,5 @@
 async function getQuestions() {
-  return fetch('https://opentdb.com/api.php?amount=10&category=27&difficulty=easy&type=multiple')
+  return fetch('https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple')
     .then((res) => res.json())
     .then((json) => json)
     .catch((err) => {
@@ -8,6 +8,6 @@ async function getQuestions() {
     });
 }
 
-const quizQuestions = await getQuestions();
+const computerQsEasy = await getQuestions();
 
-export default quizQuestions;
+export default computerQsEasy;
