@@ -24,15 +24,20 @@ const computerQuestionsEasy = computerQsEasy.results;
 const computerQuestionsMedium = computerQsMedium.results;
 const computerQuestionsHard = computerQsHard.results;
 
+
+const playerRegBtn = document.querySelector('#playerRegBtn');
+const playerRegMsg = document.createElement("p");
+const startGameBtn = document.querySelector('#start-game-button');
+const startPage = document.querySelector('#start-page');
+
 const allPages = document.querySelectorAll('.page');
+
 const questionPage = document.querySelector('#question-page');
 const gameOverPage = document.querySelector('#game-over-page');
-const startPage = document.querySelector('#start-page');
 const difficultyPage = document.querySelector('#difficulty-page');
 const categoryPage = document.querySelector('#category-page');
 const highscorePage = document.querySelector('#highscore-page');
 
-const playerRegBtn = document.querySelector('#playerRegBtn');
 const scoreText = document.querySelector('#score');
 const questionText = document.querySelector('#question-text');
 const answerBtns = document.querySelectorAll('.answer-btn');
@@ -62,11 +67,10 @@ let questionCounter = 0;
 //----------------------------------- FUNCTION DECLARATIONS ---------------------------------------
 //=================================================================================================
 
+
 // initiate quiz
 function init() {
-  questionCounter = 0;
   currentName = "";
-  currentScore = 0;
   gameOverPage.style.display = 'none';
   startPage.style.display = 'flex';
 }
@@ -77,19 +81,22 @@ class playerData {
     this.name = name;
     this.score = score;
   }
+
 }
 
 // player name
 function savePlayerName() {
+
   const playerName = document.querySelector('#playerName');
   const nameRegEx = /^[a-zA-ZåäöÅÄÖ-]+$/;
-
   if (playerName.value == "" || !playerName.value.match(nameRegEx)) {
-      const errorMsgNode = document.querySelector('#errorMsgNode')
-      errorMsgNode.innerHTML = 'Please enter a valid name.';
+    playerRegMsg.innerHTML = "Please write your name";
+    addPlayer.append(playerRegMsg);
   } else {
-      currentName = playerName.value;
-      renderCategoryPage();
+    playerRegMsg.innerHTML = `Hello ${playerName.value}, press start to play!`;
+    addPlayer.append(playerRegMsg);
+    currentName = playerName.value;
+    renderCategoryPage();
   }
 }
 
@@ -227,6 +234,8 @@ function clearClasses() {
 
 // play again
 function restartGame() {
+  currentScore = 0;
+  questionCounter = 0;
   init();
 }
 
@@ -287,7 +296,7 @@ function checkAnswer(e) {
   clearClasses();
 
   if(questionCounter < 9) {
-    questionCounter = questionCounter + 1;
+    questionCounter ++;
     renderQuestions();
   } else {
     pointsScore.innerHTML = `${currentScore}`;
@@ -301,8 +310,8 @@ function checkAnswer(e) {
 //-------------------------------------- PROGRAM LOGIC --------------------------------------------
 //=================================================================================================
 
-// player name
-playerRegBtn.addEventListener('click', savePlayerName);
+// start quiz
+startGameBtn.addEventListener('click', savePlayerName);
 
 // category
 document.querySelector('#animals-btn').addEventListener('click', categoryChoice);
@@ -323,10 +332,13 @@ playAgainBtn.addEventListener('click', restartGame);
 // check answers
 answerBtns.forEach(btn => {
   btn.addEventListener('click', checkAnswer);
+
 })
 
 highscoreBtns.forEach(btn => {
   btn.addEventListener('click', renderHighscores);
 })
 
+// calls init function to run on page load
 init();
+
