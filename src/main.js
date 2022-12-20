@@ -81,7 +81,6 @@ class playerData {
     this.name = name;
     this.score = score;
   }
-
 }
 
 // player name
