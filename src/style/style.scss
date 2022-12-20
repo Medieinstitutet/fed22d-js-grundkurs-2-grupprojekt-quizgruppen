@@ -13,7 +13,8 @@
 //=================================================================================================
 
 .hidden {
-  display: none;
+  display: none !important;
+  visibility: hidden !important;
 }
 
 .start-page {
@@ -127,7 +128,7 @@ button {
 .category-page, .difficulty-page {
   background: var(--main-bg-color);
   min-height: 100vh;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -145,7 +146,7 @@ button {
 .highscore-page {
   background: var(--main-bg-color);
   min-height: 100vh;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -187,7 +188,7 @@ button {
   position: relative;
   background: var(--main-bg-color);
   min-height: 100vh;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 60px;
@@ -252,7 +253,7 @@ button {
   background: var(--main-bg-color);
   min-height: 100vh;
   padding-top: 60px;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;

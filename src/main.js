@@ -71,8 +71,7 @@ let questionCounter = 0;
 // initiate quiz
 function init() {
   currentName = "";
-  gameOverPage.style.display = 'none';
-  startPage.style.display = 'flex';
+  renderStartPage();
 }
 
 // player information
@@ -85,9 +84,9 @@ class playerData {
 
 // player name
 function savePlayerName() {
-
   const playerName = document.querySelector('#playerName');
   const nameRegEx = /^[a-zA-ZåäöÅÄÖ-]+$/;
+
   if (playerName.value == "" || !playerName.value.match(nameRegEx)) {
     playerRegMsg.innerHTML = "Please write your name";
     addPlayer.append(playerRegMsg);
@@ -99,11 +98,72 @@ function savePlayerName() {
   }
 }
 
-function renderCategoryPage() {
-  startPage.style.display = 'none';
-  categoryPage.style.display = 'flex';
+//================= RENDER PAGES =================//
+
+// start page
+function renderStartPage() {
+  allPages.forEach(page => {
+    if (!page.classList.contains('start-page') && !page.classList.contains('hidden')) {
+        page.classList.add('hidden');
+    }
+  });
+  startPage.classList.remove('hidden');
 }
 
+// category page
+function renderCategoryPage() {
+  allPages.forEach(page => {
+    if (!page.classList.contains('category-page') && !page.classList.contains('hidden')) {
+        page.classList.add('hidden');
+    }
+  });
+  categoryPage.classList.remove('hidden');
+}
+
+// difficulty page
+function renderDifficultyPage() {
+  allPages.forEach(page => {
+    if (!page.classList.contains('difficulty-page') && !page.classList.contains('hidden')) {
+        page.classList.add('hidden');
+    }
+  });
+  difficultyPage.classList.remove('hidden');
+}
+
+// questions page
+function renderQuestionsPage() {
+  allPages.forEach(page => {
+    if (!page.classList.contains('question-page') && !page.classList.contains('hidden')) {
+        page.classList.add('hidden');
+    }
+  });
+  questionPage.classList.remove('hidden');
+}
+
+// game over page
+function renderGameOverPage() {
+  allPages.forEach(page => {
+    if (!page.classList.contains('game-over-page') && !page.classList.contains('hidden')) {
+        page.classList.add('hidden');
+    }
+  });
+  gameOverPage.classList.remove('hidden');
+}
+
+// highscore page
+function renderHighscores() {
+  addHighscore();
+  allPages.forEach(page => {
+    if (!page.classList.contains('highscore-page') && !page.classList.contains('hidden')) {
+        page.classList.add('hidden');
+    }
+  });
+  highscorePage.classList.remove('hidden');
+}
+
+//============== QUIZ CHOICES ===============//
+
+// category choice
 function categoryChoice(e) {
   const choice = e.currentTarget.innerHTML;
 
@@ -117,11 +177,7 @@ function categoryChoice(e) {
   renderDifficultyPage();
 }
 
-function renderDifficultyPage() {
-  categoryPage.style.display = 'none';
-  difficultyPage.style.display = 'flex';
-}
-
+// difficulty choice
 function difficultyChoice(e) {
   const choice = e.currentTarget.innerHTML;
 
@@ -132,13 +188,8 @@ function difficultyChoice(e) {
   } else if (choice.toLowerCase() == 'hard') {
     difficulty = 'hard';
   }
-  difficultyPage.style.display = 'none';
+  renderQuestionsPage();
   renderQuestions();
-}
-
-// generate random number 0-3
-function randomNumber() {
-  return Math.floor(Math.random() * 3);
 }
 
 // check which category & difficulty
@@ -191,13 +242,6 @@ function chosenQuiz() {
 // render questions
 function renderQuestions() {
 
-  // reset question counter
-  if (questionCounter >= 10) {
-    init();
-  } else {
-    questionPage.style.display = 'flex';
-  }
-
   // check which quiz is chosen
   chosenQuiz();
 
@@ -208,7 +252,7 @@ function renderQuestions() {
   questionText.innerHTML = question;
 
   // randomize answer buttons
-  let randomIndex = randomNumber();
+  let randomIndex = Math.floor(Math.random() * 3);
   let incorrectBtnIndex = 0;
 
   // render answer buttons
@@ -238,27 +282,6 @@ function restartGame() {
   init();
 }
 
-// render highscore page
-function renderStartPage() {
-  allPages.forEach(page => {
-    if (page.className[0] != 'start-page') {
-      page.style.display = 'none';
-    }
-  });
-  startPage.style.display = 'flex';
-}
-
-// render highscore page
-function renderHighscores() {
-  addHighscore();
-  allPages.forEach(page => {
-    if (page.className[0] != 'highscore-page') {
-      page.style.display = 'none';
-    }
-  });
-  highscorePage.style.display = 'flex';
-}
-
 // highscore
 function setHighscore() {
   const newScore = new playerData(currentName, currentScore);
@@ -286,22 +309,19 @@ function checkAnswer(e) {
 
   if (myAnswer == correctAnswer) {
     currentScore += 1;
-    console.log('Correct answer!');
-  } else if ((myAnswer == incorrectAnswers[0] || incorrectAnswers[1] || incorrectAnswers[2]) && currentScore > 0) {
-    currentScore -= 1;
-    console.log('Incorrect answer!')
+  } else if ((myAnswer == incorrectAnswers[0] || myAnswer == incorrectAnswers[1] || myAnswer == incorrectAnswers[2])) {
+    currentScore > 0 ? currentScore -= 1 : null;
   }
 
   clearClasses();
 
   if(questionCounter < 9) {
-    questionCounter ++;
+    questionCounter++;
     renderQuestions();
   } else {
     pointsScore.innerHTML = `${currentScore}`;
     setHighscore();
-    questionPage.style.display = 'none';
-    gameOverPage.style.display = 'flex';
+    renderGameOverPage();
   }
 }
 
