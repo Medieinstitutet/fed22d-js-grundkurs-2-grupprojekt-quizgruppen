@@ -25,7 +25,7 @@ const computerQuestionsMedium = computerQsMedium.results;
 const computerQuestionsHard = computerQsHard.results;
 
 
-const playerRegBtn = document.querySelector('#playerRegBtn');
+const playerName = document.querySelector('#playerName');
 const playerRegMsg = document.createElement("p");
 const startGameBtn = document.querySelector('#start-game-button');
 const startPage = document.querySelector('#start-page');
@@ -73,7 +73,10 @@ let questionCounter = 0;
 
 // initiate quiz
 function init() {
-  currentName = "";
+  playerName.value = '';
+  currentName = '';
+  currentScore = 0;
+  questionCounter = 0;
   renderStartPage();
 }
 
@@ -87,21 +90,18 @@ class playerData {
 
 // player name
 function savePlayerName() {
-  const playerName = document.querySelector('#playerName');
   const nameRegEx = /^[a-zA-ZåäöÅÄÖ-]+$/;
 
-  if (playerName.value == "" || !playerName.value.match(nameRegEx)) {
-    playerRegMsg.innerHTML = "Please write your name";
+  if (!playerName.value.match(nameRegEx)) {
+    playerRegMsg.innerHTML = "Please insert a valid name.";
     addPlayer.append(playerRegMsg);
   } else {
-    playerRegMsg.innerHTML = `Hello ${playerName.value}, press start to play!`;
-    addPlayer.append(playerRegMsg);
     currentName = playerName.value;
     renderCategoryPage();
   }
 }
 
-//================= RENDER PAGES =================//
+//============================================= RENDER PAGES =============================================//
 
 // start page
 function renderStartPage() {
@@ -166,7 +166,7 @@ function renderHighscores() {
   highscorePage.classList.remove('hidden');
 }
 
-//============== QUIZ CHOICES ===============//
+//========================================== QUIZ CHOICES ===========================================//
 
 // category choice
 function categoryChoice(e) {
@@ -260,7 +260,7 @@ function renderQuestions() {
   chosenQuiz();
 
   // start countdown
-  startCountdown(5);
+  startCountdown(questionTimer);
 
   // render score
   scoreText.innerHTML = `Score: ${currentScore}`;
@@ -269,7 +269,7 @@ function renderQuestions() {
   questionText.innerHTML = question;
 
   // randomize answer buttons
-  let randomIndex = Math.floor(Math.random() * 3);
+  let randomIndex = Math.floor(Math.random() * 4);
   let incorrectBtnIndex = 0;
 
   // render answer buttons
@@ -318,8 +318,6 @@ function stopCountdown() {
 
 // play again
 function restartGame() {
-  currentScore = 0;
-  questionCounter = 0;
   init();
 }
 
@@ -355,10 +353,10 @@ function checkAnswer(e) {
   }
 
   clearClasses();
+  stopCountdown();
 
   if(questionCounter < 9) {
     questionCounter++;
-    stopCountdown();
     renderQuestions();
   } else {
     renderGameOverPage();
@@ -383,7 +381,7 @@ document.querySelector('#medium-btn').addEventListener('click', difficultyChoice
 document.querySelector('#hard-btn').addEventListener('click', difficultyChoice);
 
 // go back btn
-document.querySelector('#back-btn').addEventListener('click', renderStartPage);
+document.querySelector('#back-btn').addEventListener('click', init);
 
 // play again
 playAgainBtn.addEventListener('click', restartGame);
@@ -400,4 +398,3 @@ highscoreBtns.forEach(btn => {
 
 // calls init function to run on page load
 init();
-
