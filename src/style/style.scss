@@ -26,17 +26,19 @@
 }
 
 .score {
+  display: block;
   position: absolute;
   font-size: 2rem;
-  top: 15px;
-  right: 15px;
+  top: 25px;
+  right: 25px;
 }
 
 .countdown {
+  display: block;
   position: absolute;
   font-size: 2rem;
-  top: 15px;
-  left: 15px;
+  top: 25px;
+  left: 25px;
 }
 
 .hideName {

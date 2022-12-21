@@ -10,6 +10,7 @@ import computerQsEasy from './computer-easy.js';
 import computerQsMedium from './computer-medium.js';
 import computerQsHard from './computer-hard.js';
 import { check } from 'prettier';
+import { getJSDocParameterTags } from 'typescript';
 
 //=================================================================================================
 //----------------------------------- VARIABLE DECLARATIONS ---------------------------------------
@@ -24,14 +25,12 @@ const computerQuestionsEasy = computerQsEasy.results;
 const computerQuestionsMedium = computerQsMedium.results;
 const computerQuestionsHard = computerQsHard.results;
 
-
 const playerName = document.querySelector('#playerName');
 const playerRegMsg = document.createElement("p");
 const startGameBtn = document.querySelector('#start-game-button');
 const startPage = document.querySelector('#start-page');
 
 const allPages = document.querySelectorAll('.page');
-
 const questionPage = document.querySelector('#question-page');
 const gameOverPage = document.querySelector('#game-over-page');
 const difficultyPage = document.querySelector('#difficulty-page');
@@ -63,13 +62,21 @@ let incorrectAnswers = null;
 
 let countdownInterval = null;
 
+let animate = gsap.to('.countdown', {
+  duration: .5,
+  scale: 2,
+  top: '30%',
+  left: '50%'
+});
+
+animate.revert();
+
 // keep track of current question
 let questionCounter = 0;
 
 //=================================================================================================
 //----------------------------------- FUNCTION DECLARATIONS ---------------------------------------
 //=================================================================================================
-
 
 // initiate quiz
 function init() {
@@ -259,6 +266,9 @@ function renderQuestions() {
   // check which quiz is chosen
   chosenQuiz();
 
+  // animate questions and answers
+  animateQuestions();
+
   // start countdown
   startCountdown(questionTimer);
 
@@ -292,28 +302,47 @@ function clearClasses() {
   });
 }
 
-// timer countdown
+// start countdown timer
 function startCountdown(seconds) {
   const countdownEl = document.querySelector('#countdown');
   let countdownSeconds = seconds;
   countdownInterval = setInterval(updateCountdown, 1000);
 
+
+
   function updateCountdown() {
     countdownEl.innerHTML = `${countdownSeconds}`;
-    // console.log(countdownSeconds);
     
-    if (countdownSeconds > 0) {
-      countdownSeconds--;
-    } else if (countdownSeconds <= 0) {
+    if (countdownSeconds <= 0) {
+      stopAnimateCountdown();
       clearInterval(countdownInterval);
       renderGameOverPage();
+    } else if (countdownSeconds < 10) {
+      animateCountdown();
     }
+
+    countdownSeconds--;
   }
   updateCountdown();
 }
 
+// stop countdown timer 
 function stopCountdown() {
   clearInterval(countdownInterval);
+}
+
+// animations when below 10 seconds on countdown timer
+function animateCountdown() {
+  animate.play();
+}
+
+function stopAnimateCountdown() {
+  animate.revert();
+}
+
+function animateQuestions() {
+  gsap.from('.question-container', { duration: 1.5, opacity: 0 });
+  gsap.from('.answer-btn', { duration: 1, opacity: 0, stagger: .3, delay: .5 });
 }
 
 // play again
@@ -353,6 +382,7 @@ function checkAnswer(e) {
   }
 
   clearClasses();
+  stopAnimateCountdown();
   stopCountdown();
 
   if(questionCounter < 9) {
