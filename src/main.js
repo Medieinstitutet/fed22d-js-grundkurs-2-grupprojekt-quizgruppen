@@ -51,6 +51,7 @@ const highscores = JSON.parse(localStorage.getItem('highscores')) || [];
 // player
 let currentName = null;
 let currentScore = 0;
+let scoreGain = null;
 
 // category and difficulty (chosen at start screen)
 let difficulty = null;
@@ -84,6 +85,7 @@ function init() {
   currentName = '';
   currentScore = 0;
   questionCounter = 0;
+  scoreGain = 0;
   renderStartPage();
 }
 
@@ -212,16 +214,19 @@ function chosenQuiz() {
       correctAnswer = animalQuestionsEasy[questionCounter].correct_answer;
       incorrectAnswers = animalQuestionsEasy[questionCounter].incorrect_answers;
       questionTimer = 45;
+      scoreGain = 1;
     } else if (difficulty == 'medium') {
       question = animalQuestionsMedium[questionCounter].question;
       correctAnswer = animalQuestionsMedium[questionCounter].correct_answer;
       incorrectAnswers = animalQuestionsMedium[questionCounter].incorrect_answers;
       questionTimer = 30;
+      scoreGain = 2;
     } else if (difficulty == 'hard') {
       question = animalQuestionsHard[questionCounter].question;
       correctAnswer = animalQuestionsHard[questionCounter].correct_answer;
       incorrectAnswers = animalQuestionsHard[questionCounter].incorrect_answers;
       questionTimer = 15;
+      scoreGain = 3;
     } 
   } else if (category == 'geography') {
     if (difficulty == 'easy') {
@@ -229,16 +234,19 @@ function chosenQuiz() {
       correctAnswer = geographyQuestionsEasy[questionCounter].correct_answer;
       incorrectAnswers = geographyQuestionsEasy[questionCounter].incorrect_answers;
       questionTimer = 45;
+      scoreGain = 1;
     } else if (difficulty == 'medium') {
       question = geographyQuestionsMedium[questionCounter].question;
       correctAnswer = geographyQuestionsMedium[questionCounter].correct_answer;
       incorrectAnswers = geographyQuestionsMedium[questionCounter].incorrect_answers;
       questionTimer = 30;
+      scoreGain = 2;
     } else if (difficulty == 'hard') {
       question = geographyQuestionsHard[questionCounter].question;
       correctAnswer = geographyQuestionsHard[questionCounter].correct_answer;
       incorrectAnswers = geographyQuestionsHard[questionCounter].incorrect_answers;
       questionTimer = 15;
+      scoreGain = 3;
     } 
   } else if (category == 'computer') {
     if (difficulty == 'easy') {
@@ -246,16 +254,19 @@ function chosenQuiz() {
       correctAnswer = computerQuestionsEasy[questionCounter].correct_answer;
       incorrectAnswers = computerQuestionsEasy[questionCounter].incorrect_answers;
       questionTimer = 45;
+      scoreGain = 1;
     } else if (difficulty == 'medium') {
       question = computerQuestionsMedium[questionCounter].question;
       correctAnswer = computerQuestionsMedium[questionCounter].correct_answer;
       incorrectAnswers = computerQuestionsMedium[questionCounter].incorrect_answers;
       questionTimer = 30;
+      scoreGain = 2;
     } else if (difficulty == 'hard') {
       question = computerQuestionsHard[questionCounter].question;
       correctAnswer = computerQuestionsHard[questionCounter].correct_answer;
       incorrectAnswers = computerQuestionsHard[questionCounter].incorrect_answers;
       questionTimer = 15;
+      scoreGain = 3;
     } 
   }
 }
@@ -383,10 +394,11 @@ function addHighscore() {
 function checkAnswer(e) {
   const myAnswer = e.currentTarget.innerHTML;
 
+  // add score or remove score (minimum 0 score)
   if (myAnswer == correctAnswer) {
-    currentScore += 1;
+    currentScore += scoreGain;
   } else if ((myAnswer == incorrectAnswers[0] || myAnswer == incorrectAnswers[1] || myAnswer == incorrectAnswers[2])) {
-    currentScore > 0 ? currentScore -= 1 : null;
+    currentScore >= scoreGain ? currentScore -= scoreGain : null;
   }
 
   clearClasses();
