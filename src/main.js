@@ -62,14 +62,14 @@ let incorrectAnswers = null;
 
 let countdownInterval = null;
 
+// animation
 let animate = gsap.to('.countdown', {
+  paused: true,
   duration: .5,
   scale: 2,
   top: '30%',
   left: '50%'
 });
-
-animate.revert();
 
 // keep track of current question
 let questionCounter = 0;
@@ -317,7 +317,7 @@ function startCountdown(seconds) {
       stopAnimateCountdown();
       clearInterval(countdownInterval);
       renderGameOverPage();
-    } else if (countdownSeconds < 10) {
+    } else if (countdownSeconds < 11) {
       animateCountdown();
     }
 
@@ -338,6 +338,14 @@ function animateCountdown() {
 
 function stopAnimateCountdown() {
   animate.revert();
+
+  animate = gsap.to('.countdown', {
+    paused: true,
+    duration: .5,
+    scale: 2,
+    top: '30%',
+    left: '50%'
+  });
 }
 
 function animateQuestions() {
