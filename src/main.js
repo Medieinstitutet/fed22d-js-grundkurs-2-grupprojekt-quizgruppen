@@ -250,7 +250,6 @@ function chosenQuiz() {
       questionTimer = 15;
       scoreGain = 3;
     } 
-
   } else if (category == 'computer') {
     if (difficulty == 'easy') {
       question = computerQuestionsEasy[questionCounter].question;
