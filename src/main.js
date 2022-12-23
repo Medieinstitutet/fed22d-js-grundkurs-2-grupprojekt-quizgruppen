@@ -157,7 +157,7 @@ function chosenQuiz() {
       question = animalQuestionsHard[questionCounter].question;
       correctAnswer = animalQuestionsHard[questionCounter].correct_answer;
       incorrectAnswers = animalQuestionsHard[questionCounter].incorrect_answers;
-    } 
+    }
   } else if (category == 'geography') {
     if (difficulty == 'easy') {
       question = geographyQuestionsEasy[questionCounter].question;
@@ -171,7 +171,7 @@ function chosenQuiz() {
       question = geographyQuestionsHard[questionCounter].question;
       correctAnswer = geographyQuestionsHard[questionCounter].correct_answer;
       incorrectAnswers = geographyQuestionsHard[questionCounter].incorrect_answers;
-    } 
+    }
   } else if (category == 'computer') {
     if (difficulty == 'easy') {
       question = computerQuestionsEasy[questionCounter].question;
@@ -185,7 +185,7 @@ function chosenQuiz() {
       question = computerQuestionsHard[questionCounter].question;
       correctAnswer = computerQuestionsHard[questionCounter].correct_answer;
       incorrectAnswers = computerQuestionsHard[questionCounter].incorrect_answers;
-    } 
+    }
   }
 }
 
@@ -263,7 +263,7 @@ function renderHighscores() {
 // highscore
 function setHighscore() {
   const newScore = new playerData(currentName, currentScore);
-  
+
   highscores.push(newScore);
   highscores.sort((a, b) => b.score - a.score);
   highscores.splice(10);
@@ -278,32 +278,44 @@ function addHighscore() {
   highscoreList.innerHTML = highscores.map(score => {
     return `<li>${score.name}: ${score.score}`;
   })
-  .join("");
+    .join("");
 }
 
 // check if answer is correct, add 1 score if true
 function checkAnswer(e) {
   const myAnswer = e.currentTarget.innerHTML;
+  const checkMyAnswerCorrect = e.currentTarget;
 
   if (myAnswer == correctAnswer) {
     currentScore += 1;
     console.log('Correct answer!');
-  } else if ((myAnswer == incorrectAnswers[0] || incorrectAnswers[1] || incorrectAnswers[2]) && currentScore > 0) {
+    checkMyAnswerCorrect.classList.add("green-answer"); //add class to change color
+  }
+  if ((myAnswer == incorrectAnswers[0] || myAnswer == incorrectAnswers[1] || myAnswer == incorrectAnswers[2]) && currentScore > 0) {
     currentScore -= 1;
     console.log('Incorrect answer!')
   }
+  if ((myAnswer == incorrectAnswers[0] || myAnswer == incorrectAnswers[1] || myAnswer == incorrectAnswers[2])) {
+    const checkMyAnswerIncorrect = e.currentTarget;
+    checkMyAnswerIncorrect.classList.add("red-answer"); //add class to change color
+  }
 
-  clearClasses();
+  if (questionCounter < 9) {
+    questionCounter++;
+    setTimeout(questionDelay, 3000); //3 sek delay
 
-  if(questionCounter < 9) {
-    questionCounter ++;
-    renderQuestions();
   } else {
     pointsScore.innerHTML = `${currentScore}`;
     setHighscore();
     questionPage.style.display = 'none';
     gameOverPage.style.display = 'flex';
   }
+}
+
+// create delay and then clear classes and render next question
+function questionDelay() {
+  clearClasses();
+  renderQuestions();
 }
 
 //=================================================================================================
