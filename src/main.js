@@ -225,9 +225,11 @@ function chosenQuiz() {
       question = animalQuestionsHard[questionCounter].question;
       correctAnswer = animalQuestionsHard[questionCounter].correct_answer;
       incorrectAnswers = animalQuestionsHard[questionCounter].incorrect_answers;
+
       questionTimer = 15;
       scoreGain = 3;
     } 
+
   } else if (category == 'geography') {
     if (difficulty == 'easy') {
       question = geographyQuestionsEasy[questionCounter].question;
@@ -248,6 +250,7 @@ function chosenQuiz() {
       questionTimer = 15;
       scoreGain = 3;
     } 
+
   } else if (category == 'computer') {
     if (difficulty == 'easy') {
       question = computerQuestionsEasy[questionCounter].question;
@@ -372,7 +375,7 @@ function restartGame() {
 // highscore
 function setHighscore() {
   const newScore = new playerData(currentName, currentScore);
-  
+
   highscores.push(newScore);
   highscores.sort((a, b) => b.score - a.score);
   highscores.splice(10);
@@ -387,30 +390,40 @@ function addHighscore() {
   highscoreList.innerHTML = highscores.map(score => {
     return `<li>${score.name}: ${score.score}`;
   })
-  .join("");
+    .join("");
 }
 
 // check if answer is correct, add 1 score if true
 function checkAnswer(e) {
   const myAnswer = e.currentTarget.innerHTML;
+  const checkMyAnswerCorrect = e.currentTarget;
 
   // add score or remove score (minimum 0 score)
   if (myAnswer == correctAnswer) {
     currentScore += scoreGain;
+    checkMyAnswerCorrect.classList.add("green-answer"); //add class to change color
   } else if ((myAnswer == incorrectAnswers[0] || myAnswer == incorrectAnswers[1] || myAnswer == incorrectAnswers[2])) {
+    const checkMyAnswerIncorrect = e.currentTarget;
+    checkMyAnswerIncorrect.classList.add("red-answer"); //add class to change color
     currentScore >= scoreGain ? currentScore -= scoreGain : null;
   }
 
-  clearClasses();
+
   stopAnimateCountdown();
   stopCountdown();
 
-  if(questionCounter < 9) {
+  if (questionCounter < 9) {
     questionCounter++;
-    renderQuestions();
+    setTimeout(questionDelay, 3000); //3 sek delay
   } else {
     renderGameOverPage();
   }
+}
+
+// create delay and then clear classes and render next question
+function questionDelay() {
+  clearClasses();
+  renderQuestions();
 }
 
 //=================================================================================================
