@@ -10,6 +10,7 @@ import computerQsEasy from './computer-easy.js';
 import computerQsMedium from './computer-medium.js';
 import computerQsHard from './computer-hard.js';
 import { check } from 'prettier';
+import { getJSDocParameterTags } from 'typescript';
 
 //=================================================================================================
 //----------------------------------- VARIABLE DECLARATIONS ---------------------------------------
@@ -24,14 +25,12 @@ const computerQuestionsEasy = computerQsEasy.results;
 const computerQuestionsMedium = computerQsMedium.results;
 const computerQuestionsHard = computerQsHard.results;
 
-
-const playerRegBtn = document.querySelector('#playerRegBtn');
+const playerName = document.querySelector('#playerName');
 const playerRegMsg = document.createElement("p");
 const startGameBtn = document.querySelector('#start-game-button');
 const startPage = document.querySelector('#start-page');
 
 const allPages = document.querySelectorAll('.page');
-
 const questionPage = document.querySelector('#question-page');
 const gameOverPage = document.querySelector('#game-over-page');
 const difficultyPage = document.querySelector('#difficulty-page');
@@ -52,13 +51,26 @@ const highscores = JSON.parse(localStorage.getItem('highscores')) || [];
 // player
 let currentName = null;
 let currentScore = 0;
+let scoreGain = null;
 
 // category and difficulty (chosen at start screen)
 let difficulty = null;
+let questionTimer = null;
 let category = null;
 let question = null;
 let correctAnswer = null;
 let incorrectAnswers = null;
+
+let countdownInterval = null;
+
+// animation
+let animate = gsap.to('.countdown', {
+  paused: true,
+  duration: .5,
+  scale: 2,
+  top: '30%',
+  left: '50%'
+});
 
 // keep track of current question
 let questionCounter = 0;
@@ -67,12 +79,14 @@ let questionCounter = 0;
 //----------------------------------- FUNCTION DECLARATIONS ---------------------------------------
 //=================================================================================================
 
-
 // initiate quiz
 function init() {
-  currentName = "";
-  gameOverPage.style.display = 'none';
-  startPage.style.display = 'flex';
+  playerName.value = '';
+  currentName = '';
+  currentScore = 0;
+  questionCounter = 0;
+  scoreGain = 0;
+  renderStartPage();
 }
 
 // player information
@@ -81,30 +95,89 @@ class playerData {
     this.name = name;
     this.score = score;
   }
-
 }
 
 // player name
 function savePlayerName() {
-
-  const playerName = document.querySelector('#playerName');
   const nameRegEx = /^[a-zA-ZåäöÅÄÖ-]+$/;
-  if (playerName.value == "" || !playerName.value.match(nameRegEx)) {
-    playerRegMsg.innerHTML = "Please write your name";
+
+  if (!playerName.value.match(nameRegEx)) {
+    playerRegMsg.innerHTML = "Please insert a valid name.";
     addPlayer.append(playerRegMsg);
   } else {
-    playerRegMsg.innerHTML = `Hello ${playerName.value}, press start to play!`;
-    addPlayer.append(playerRegMsg);
     currentName = playerName.value;
     renderCategoryPage();
   }
 }
 
-function renderCategoryPage() {
-  startPage.style.display = 'none';
-  categoryPage.style.display = 'flex';
+//============================================= RENDER PAGES =============================================//
+
+// start page
+function renderStartPage() {
+  allPages.forEach(page => {
+    if (!page.classList.contains('start-page') && !page.classList.contains('hidden')) {
+        page.classList.add('hidden');
+    }
+  });
+  startPage.classList.remove('hidden');
 }
 
+// category page
+function renderCategoryPage() {
+  allPages.forEach(page => {
+    if (!page.classList.contains('category-page') && !page.classList.contains('hidden')) {
+        page.classList.add('hidden');
+    }
+  });
+  categoryPage.classList.remove('hidden');
+}
+
+// difficulty page
+function renderDifficultyPage() {
+  allPages.forEach(page => {
+    if (!page.classList.contains('difficulty-page') && !page.classList.contains('hidden')) {
+        page.classList.add('hidden');
+    }
+  });
+  difficultyPage.classList.remove('hidden');
+}
+
+// questions page
+function renderQuestionsPage() {
+  allPages.forEach(page => {
+    if (!page.classList.contains('question-page') && !page.classList.contains('hidden')) {
+        page.classList.add('hidden');
+    }
+  });
+  questionPage.classList.remove('hidden');
+}
+
+// game over page
+function renderGameOverPage() {
+  setHighscore();
+  pointsScore.innerHTML = `${currentScore}`;
+  allPages.forEach(page => {
+    if (!page.classList.contains('game-over-page') && !page.classList.contains('hidden')) {
+        page.classList.add('hidden');
+    }
+  });
+  gameOverPage.classList.remove('hidden');
+}
+
+// highscore page
+function renderHighscores() {
+  addHighscore();
+  allPages.forEach(page => {
+    if (!page.classList.contains('highscore-page') && !page.classList.contains('hidden')) {
+        page.classList.add('hidden');
+    }
+  });
+  highscorePage.classList.remove('hidden');
+}
+
+//========================================== QUIZ CHOICES ===========================================//
+
+// category choice
 function categoryChoice(e) {
   const choice = e.currentTarget.innerHTML;
 
@@ -118,11 +191,7 @@ function categoryChoice(e) {
   renderDifficultyPage();
 }
 
-function renderDifficultyPage() {
-  categoryPage.style.display = 'none';
-  difficultyPage.style.display = 'flex';
-}
-
+// difficulty choice
 function difficultyChoice(e) {
   const choice = e.currentTarget.innerHTML;
 
@@ -133,74 +202,89 @@ function difficultyChoice(e) {
   } else if (choice.toLowerCase() == 'hard') {
     difficulty = 'hard';
   }
-  difficultyPage.style.display = 'none';
+  renderQuestionsPage();
   renderQuestions();
 }
 
-// generate random number 0-3
-function randomNumber() {
-  return Math.floor(Math.random() * 3);
-}
-
-// check which category & difficulty
+// check which category & difficulty  ----- TODO : Solve in a cleaner way -----
 function chosenQuiz() {
   if (category == 'animals') {
     if (difficulty == 'easy') {
       question = animalQuestionsEasy[questionCounter].question;
       correctAnswer = animalQuestionsEasy[questionCounter].correct_answer;
       incorrectAnswers = animalQuestionsEasy[questionCounter].incorrect_answers;
+      questionTimer = 45;
+      scoreGain = 1;
     } else if (difficulty == 'medium') {
       question = animalQuestionsMedium[questionCounter].question;
       correctAnswer = animalQuestionsMedium[questionCounter].correct_answer;
       incorrectAnswers = animalQuestionsMedium[questionCounter].incorrect_answers;
+      questionTimer = 30;
+      scoreGain = 2;
     } else if (difficulty == 'hard') {
       question = animalQuestionsHard[questionCounter].question;
       correctAnswer = animalQuestionsHard[questionCounter].correct_answer;
       incorrectAnswers = animalQuestionsHard[questionCounter].incorrect_answers;
-    }
+
+      questionTimer = 15;
+      scoreGain = 3;
+    } 
+
   } else if (category == 'geography') {
     if (difficulty == 'easy') {
       question = geographyQuestionsEasy[questionCounter].question;
       correctAnswer = geographyQuestionsEasy[questionCounter].correct_answer;
       incorrectAnswers = geographyQuestionsEasy[questionCounter].incorrect_answers;
+      questionTimer = 45;
+      scoreGain = 1;
     } else if (difficulty == 'medium') {
       question = geographyQuestionsMedium[questionCounter].question;
       correctAnswer = geographyQuestionsMedium[questionCounter].correct_answer;
       incorrectAnswers = geographyQuestionsMedium[questionCounter].incorrect_answers;
+      questionTimer = 30;
+      scoreGain = 2;
     } else if (difficulty == 'hard') {
       question = geographyQuestionsHard[questionCounter].question;
       correctAnswer = geographyQuestionsHard[questionCounter].correct_answer;
       incorrectAnswers = geographyQuestionsHard[questionCounter].incorrect_answers;
-    }
+      questionTimer = 15;
+      scoreGain = 3;
+    } 
+
   } else if (category == 'computer') {
     if (difficulty == 'easy') {
       question = computerQuestionsEasy[questionCounter].question;
       correctAnswer = computerQuestionsEasy[questionCounter].correct_answer;
       incorrectAnswers = computerQuestionsEasy[questionCounter].incorrect_answers;
+      questionTimer = 45;
+      scoreGain = 1;
     } else if (difficulty == 'medium') {
       question = computerQuestionsMedium[questionCounter].question;
       correctAnswer = computerQuestionsMedium[questionCounter].correct_answer;
       incorrectAnswers = computerQuestionsMedium[questionCounter].incorrect_answers;
+      questionTimer = 30;
+      scoreGain = 2;
     } else if (difficulty == 'hard') {
       question = computerQuestionsHard[questionCounter].question;
       correctAnswer = computerQuestionsHard[questionCounter].correct_answer;
       incorrectAnswers = computerQuestionsHard[questionCounter].incorrect_answers;
-    }
+      questionTimer = 15;
+      scoreGain = 3;
+    } 
   }
 }
 
 // render questions
 function renderQuestions() {
 
-  // reset question counter
-  if (questionCounter >= 10) {
-    init();
-  } else {
-    questionPage.style.display = 'flex';
-  }
-
   // check which quiz is chosen
   chosenQuiz();
+
+  // animate questions and answers
+  animateQuestions();
+
+  // start countdown
+  startCountdown(questionTimer);
 
   // render score
   scoreText.innerHTML = `Score: ${currentScore}`;
@@ -209,7 +293,7 @@ function renderQuestions() {
   questionText.innerHTML = question;
 
   // randomize answer buttons
-  let randomIndex = randomNumber();
+  let randomIndex = Math.floor(Math.random() * 4);
   let incorrectBtnIndex = 0;
 
   // render answer buttons
@@ -232,32 +316,60 @@ function clearClasses() {
   });
 }
 
+// start countdown timer
+function startCountdown(seconds) {
+  const countdownEl = document.querySelector('#countdown');
+  let countdownSeconds = seconds;
+  countdownInterval = setInterval(updateCountdown, 1000);
+
+
+
+  function updateCountdown() {
+    countdownEl.innerHTML = `${countdownSeconds}`;
+    
+    if (countdownSeconds <= 0) {
+      stopAnimateCountdown();
+      clearInterval(countdownInterval);
+      renderGameOverPage();
+    } else if (countdownSeconds < 11) {
+      animateCountdown();
+    }
+
+    countdownSeconds--;
+  }
+  updateCountdown();
+}
+
+// stop countdown timer 
+function stopCountdown() {
+  clearInterval(countdownInterval);
+}
+
+// animations when below 10 seconds on countdown timer
+function animateCountdown() {
+  animate.play();
+}
+
+function stopAnimateCountdown() {
+  animate.revert();
+
+  animate = gsap.to('.countdown', {
+    paused: true,
+    duration: .5,
+    scale: 2,
+    top: '30%',
+    left: '50%'
+  });
+}
+
+function animateQuestions() {
+  gsap.from('.question-container', { duration: 1.5, opacity: 0 });
+  gsap.from('.answer-btn', { duration: 1, opacity: 0, stagger: .3, delay: .5 });
+}
+
 // play again
 function restartGame() {
-  currentScore = 0;
-  questionCounter = 0;
   init();
-}
-
-// render highscore page
-function renderStartPage() {
-  allPages.forEach(page => {
-    if (page.className[0] != 'start-page') {
-      page.style.display = 'none';
-    }
-  });
-  startPage.style.display = 'flex';
-}
-
-// render highscore page
-function renderHighscores() {
-  addHighscore();
-  allPages.forEach(page => {
-    if (page.className[0] != 'highscore-page') {
-      page.style.display = 'none';
-    }
-  });
-  highscorePage.style.display = 'flex';
 }
 
 // highscore
@@ -286,29 +398,25 @@ function checkAnswer(e) {
   const myAnswer = e.currentTarget.innerHTML;
   const checkMyAnswerCorrect = e.currentTarget;
 
+  // add score or remove score (minimum 0 score)
   if (myAnswer == correctAnswer) {
-    currentScore += 1;
-    console.log('Correct answer!');
+    currentScore += scoreGain;
     checkMyAnswerCorrect.classList.add("green-answer"); //add class to change color
-  }
-  if ((myAnswer == incorrectAnswers[0] || myAnswer == incorrectAnswers[1] || myAnswer == incorrectAnswers[2]) && currentScore > 0) {
-    currentScore -= 1;
-    console.log('Incorrect answer!')
-  }
-  if ((myAnswer == incorrectAnswers[0] || myAnswer == incorrectAnswers[1] || myAnswer == incorrectAnswers[2])) {
+  } else if ((myAnswer == incorrectAnswers[0] || myAnswer == incorrectAnswers[1] || myAnswer == incorrectAnswers[2])) {
     const checkMyAnswerIncorrect = e.currentTarget;
     checkMyAnswerIncorrect.classList.add("red-answer"); //add class to change color
+    currentScore >= scoreGain ? currentScore -= scoreGain : null;
   }
+
+
+  stopAnimateCountdown();
+  stopCountdown();
 
   if (questionCounter < 9) {
     questionCounter++;
     setTimeout(questionDelay, 3000); //3 sek delay
-
   } else {
-    pointsScore.innerHTML = `${currentScore}`;
-    setHighscore();
-    questionPage.style.display = 'none';
-    gameOverPage.style.display = 'flex';
+    renderGameOverPage();
   }
 }
 
@@ -336,7 +444,7 @@ document.querySelector('#medium-btn').addEventListener('click', difficultyChoice
 document.querySelector('#hard-btn').addEventListener('click', difficultyChoice);
 
 // go back btn
-document.querySelector('#back-btn').addEventListener('click', renderStartPage);
+document.querySelector('#back-btn').addEventListener('click', init);
 
 // play again
 playAgainBtn.addEventListener('click', restartGame);
@@ -353,4 +461,3 @@ highscoreBtns.forEach(btn => {
 
 // calls init function to run on page load
 init();
-

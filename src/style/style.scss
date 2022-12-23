@@ -12,6 +12,11 @@
 //---------------------------------------- START PAGE ---------------------------------------------
 //=================================================================================================
 
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
 .start-page {
   background: var(--main-bg-color);
   min-height: 100vh;
@@ -21,14 +26,19 @@
 }
 
 .score {
+  display: block;
   position: absolute;
   font-size: 2rem;
-  top: 15px;
-  right: 15px;
+  top: 25px;
+  right: 25px;
 }
 
-.player-start-container {
-  text-align: center;
+.countdown {
+  display: block;
+  position: absolute;
+  font-size: 2rem;
+  top: 25px;
+  left: 25px;
 }
 
 .hideName {
@@ -50,7 +60,7 @@
   margin-top: 10px;
   margin-left: 5px;
   font-size: 6rem;
-  font-family: 'Slackey', cursive;
+  font-family: Slackey, cursive;
 }
 
 .logo-description-container {
@@ -63,7 +73,7 @@
 
 .logo-description-container h1 {
   text-transform: uppercase;
-  font-family: 'Slackey', cursive;
+  font-family: Slackey, cursive;
   font-size: 4.5rem;
 }
 
@@ -79,6 +89,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  text-align: center;
 }
 
 .player {
@@ -124,7 +135,7 @@ button {
 .difficulty-page {
   background: var(--main-bg-color);
   min-height: 100vh;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -142,7 +153,7 @@ button {
 .highscore-page {
   background: var(--main-bg-color);
   min-height: 100vh;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -184,14 +195,15 @@ button {
   position: relative;
   background: var(--main-bg-color);
   min-height: 100vh;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 60px;
+  gap: 50px;
 }
 
 .question-container p {
-  margin: 80px 10px 10px 10px;
+  margin: 80px 10px 10px;
   text-align: center;
   font-size: 2rem;
   font-weight: bold;
@@ -271,7 +283,7 @@ button {
   background: var(--main-bg-color);
   min-height: 100vh;
   padding-top: 60px;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
