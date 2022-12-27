@@ -3,20 +3,21 @@
 #### Anton:
 
 - ✔️ API (objekt i en array, Frågor - sträng, svarsalternativ - sträng / boolean, ett korrekt svarsalternativ)
-- Man ska få en tidsbonus beroende på hur snabbt man svarar
-- Om tiden tar slut (nedräknare)
+- ✔️ Man ska få en tidsbonus beroende på hur snabbt man svarar
+- ✔️ Om tiden tar slut (nedräknare)
 
 #### Sandra:
 
 - ✔️ Lägg upp 2 testfrågor.
 - ✔️ Lägg upp grundläggande design (start / frågor / game over)
-- Visa nästa fråga efter 3 sekunder (timer + animation)
+- ✔️ Visa nästa fråga efter 3 sekunder (timer + animation)
 
 #### Tillsammans:
 
 - ✔️ Frågor och svar randomized
 
 #### .......
+
 - beskrivningen
 - ✔️ skriv in ditt namn
 - ✔️ startknapp för quiz
@@ -43,7 +44,7 @@
 
 - ✔️ Olika kategorier
 - ✔️ Svarsalternativen ska visas i slumpmässig ordning.
-- ✔ Scoreboard
-- Begränsad tid
+- ✔️ Scoreboard
+- ✔️ Begränsad tid
 - I slutet ska det gå att klicka på en knapp som visar samtliga frågor, och vilka som användaren svarat rätt/fel på. (CSS-styling räcker)
-- Man ska få en tidsbonus beroende på hur snabbt man svarar
+- ✔️ Man ska få en tidsbonus beroende på hur snabbt man svarar
