@@ -12,6 +12,7 @@ import computerQsHard from './computer-hard.js';
 import { check } from 'prettier';
 import { getJSDocParameterTags } from 'typescript';
 
+
 //=================================================================================================
 //----------------------------------- VARIABLE DECLARATIONS ---------------------------------------
 //=================================================================================================
@@ -55,13 +56,15 @@ let scoreGain = null;
 
 // category and difficulty (chosen at start screen)
 let difficulty = null;
-let questionTimer = null;
 let category = null;
+let questionTimer = null;
+let timeBonus = 10;
 let question = null;
 let correctAnswer = null;
 let incorrectAnswers = null;
 
 let countdownInterval = null;
+let bonusCountdown = null;
 
 // animation
 let animate = gsap.to('.countdown', {
@@ -277,14 +280,18 @@ function chosenQuiz() {
 // render questions
 function renderQuestions() {
 
+  // set bonus score countdown
+  timeBonus = 10;
+
   // check which quiz is chosen
   chosenQuiz();
 
   // animate questions and answers
   animateQuestions();
 
-  // start countdown
+  // start countdowns
   startCountdown(questionTimer);
+  bonusScoreCountdown();
 
   // render score
   scoreText.innerHTML = `Score: ${currentScore}`;
@@ -313,7 +320,28 @@ function renderQuestions() {
 function clearClasses() {
   answerBtns.forEach(btn => {
     btn.className = 'answer-btn';
+    btn.removeAttribute('disabled');
   });
+}
+
+// prevent multiple answers in same question
+function disableBtns() {
+  answerBtns.forEach(btn => {
+      btn.disabled = true;
+  });
+}
+
+// countdown for bonus time score
+function bonusScoreCountdown() {
+  bonusCountdown = setInterval(updateBonusCountdown, 1000);
+
+  function updateBonusCountdown() {
+    if (timeBonus < 0) {
+      clearInterval(bonusCountdown);
+    }
+    timeBonus--;
+  }
+  updateBonusCountdown();
 }
 
 // start countdown timer
@@ -322,19 +350,16 @@ function startCountdown(seconds) {
   let countdownSeconds = seconds;
   countdownInterval = setInterval(updateCountdown, 1000);
 
-
-
   function updateCountdown() {
     countdownEl.innerHTML = `${countdownSeconds}`;
     
-    if (countdownSeconds <= 0) {
+    if (countdownSeconds < 0) {
       stopAnimateCountdown();
       clearInterval(countdownInterval);
       renderGameOverPage();
     } else if (countdownSeconds < 11) {
       animateCountdown();
     }
-
     countdownSeconds--;
   }
   updateCountdown();
@@ -398,16 +423,25 @@ function checkAnswer(e) {
   const myAnswer = e.currentTarget.innerHTML;
   const checkMyAnswerCorrect = e.currentTarget;
 
+  disableBtns();
+
   // add score or remove score (minimum 0 score)
   if (myAnswer == correctAnswer) {
-    currentScore += scoreGain;
+    timeBonus > 0 ? currentScore += (scoreGain + 1) : currentScore += scoreGain; // +1 score if question is answered within 10 seconds
     checkMyAnswerCorrect.classList.add("green-answer"); //add class to change color
+    // change back color
+    setTimeout(() => {
+      checkMyAnswerCorrect.classList.remove('green-answer')
+    }, 3000);
   } else if ((myAnswer == incorrectAnswers[0] || myAnswer == incorrectAnswers[1] || myAnswer == incorrectAnswers[2])) {
     const checkMyAnswerIncorrect = e.currentTarget;
     checkMyAnswerIncorrect.classList.add("red-answer"); //add class to change color
-    currentScore >= scoreGain ? currentScore -= scoreGain : null;
+    // change back color
+    setTimeout(() => {
+      checkMyAnswerIncorrect.classList.remove('red-answer');
+    }, 3000);
+    currentScore >= scoreGain ? currentScore -= scoreGain : currentScore = 0;
   }
-
 
   stopAnimateCountdown();
   stopCountdown();
@@ -417,13 +451,14 @@ function checkAnswer(e) {
     setTimeout(questionDelay, 3000); //3 sek delay
   } else {
     renderGameOverPage();
+    clearClasses();
   }
 }
 
 // create delay and then clear classes and render next question
 function questionDelay() {
-  clearClasses();
   renderQuestions();
+  clearClasses();
 }
 
 //=================================================================================================
