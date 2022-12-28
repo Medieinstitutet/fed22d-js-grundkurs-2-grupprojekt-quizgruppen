@@ -337,7 +337,7 @@ function bonusScoreCountdown() {
 
   function updateBonusCountdown() {
     if (timeBonus < 0) {
-      clearInterval(bonusCountdown);
+      stopBonusCountdown();
     }
     timeBonus--;
   }
@@ -355,7 +355,7 @@ function startCountdown(seconds) {
     
     if (countdownSeconds < 0) {
       stopAnimateCountdown();
-      clearInterval(countdownInterval);
+      stopCountdown();
       renderGameOverPage();
     } else if (countdownSeconds < 11) {
       animateCountdown();
@@ -368,6 +368,10 @@ function startCountdown(seconds) {
 // stop countdown timer 
 function stopCountdown() {
   clearInterval(countdownInterval);
+}
+
+function stopBonusCountdown() {
+  clearInterval(bonusCountdown);
 }
 
 // animations when below 10 seconds on countdown timer
@@ -423,6 +427,7 @@ function checkAnswer(e) {
   const myAnswer = e.currentTarget.innerHTML;
   const checkMyAnswerCorrect = e.currentTarget;
 
+  stopBonusCountdown();
   disableBtns();
 
   // add score or remove score (minimum 0 score)
