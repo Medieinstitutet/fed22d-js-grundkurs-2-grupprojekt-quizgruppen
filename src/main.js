@@ -46,6 +46,8 @@ const highscoreBtns = document.querySelectorAll('.highscore-btn');
 
 const pointsScore = document.querySelector('#points');
 
+const categoryImg = document.querySelector('#category-img');
+
 const highscoreList = document.querySelector('#highscore-list');
 const highscores = JSON.parse(localStorage.getItem('highscores')) || [];
 
@@ -186,6 +188,7 @@ function categoryChoice(e) {
 
   if (choice.toLowerCase() == 'animals') {
     category = 'animals';
+    categoryImg.src = 'src/animal-bg.png'
   } else if (choice.toLowerCase() == 'geography') {
     category = 'geography';
   } else if (choice.toLowerCase() == 'computer') {
