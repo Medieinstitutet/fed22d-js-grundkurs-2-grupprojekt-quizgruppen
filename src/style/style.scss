@@ -77,6 +77,11 @@
   font-size: 4.5rem;
 }
 
+.quiz-description {
+  text-align: left;
+  max-width: 450px;
+}
+
 button {
   border: none;
 }
@@ -95,7 +100,7 @@ button {
 .player {
   background-color: white;
   color: black;
-  margin-top: 30px;
+  border-radius: 5px;
 }
 
 .register-name-button {
@@ -112,7 +117,7 @@ button {
   background: rgb(255, 174, 0);
 }
 
-.start {
+.start, .highscore-btn {
   background: linear-gradient(rgb(246, 201, 77), rgb(219, 135, 9), rgb(235, 61, 8));
   padding: 10px 50px;
   border-radius: 50px;
@@ -177,13 +182,11 @@ button {
   color: white;
   padding: 10px 50px;
   border-radius: 50px;
-  margin: 20px;
-  margin-bottom: 50px;
   font-size: 1.3rem;
   font-weight: bold;
   letter-spacing: 0.1rem;
   text-transform: uppercase;
-  width: 200px;
+  min-width: 250px;
 }
 
 //=================================================================================================
