@@ -13,8 +13,8 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js" defer></script>
-  <script type="module" crossorigin src="/fed22d-js-grundkurs-2-grupprojekt-quizgruppen/assets/index.28626667.js"></script>
-  <link rel="stylesheet" href="/fed22d-js-grundkurs-2-grupprojekt-quizgruppen/assets/index.5d141fd7.css">
+  <script type="module" crossorigin src="/fed22d-js-grundkurs-2-grupprojekt-quizgruppen/assets/index.64367b62.js"></script>
+  <link rel="stylesheet" href="/fed22d-js-grundkurs-2-grupprojekt-quizgruppen/assets/index.924ac2ea.css">
 </head>
 
 <body>
@@ -58,9 +58,10 @@
   </section>
 
   <section class="question-page page hidden" id="question-page">
-    <div class="logo-container">
-      <span class="logo" aria-hidden=true>?</span>
-    </div>
+
+    <figure class="category-img">
+      <img class="category-img" id="categoryImg" src="" alt="">
+    </figure>
 
     <div class="countdown" id="countdown"></div>
 
@@ -92,6 +93,13 @@
     <p class="game-over">Game over!</p>
 
     <p class="points-text">You got <span id="points"></span> points</p>
+
+    <table class="compare-answers-table">
+      <tr class="table-description">
+        <td>Your answer</td>
+        <td>Correct answer</td>
+      </tr>
+    </table>
 
     <button class="choice-btn highscore-btn">View highscores</button>
 
