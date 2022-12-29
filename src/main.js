@@ -80,7 +80,10 @@ let questionCounter = 0;
 //=================================================================================================
 
 // initiate quiz
-function init() {
+function init(reload) {
+  if (reload) {
+    window.location.reload();
+  }
   playerName.value = '';
   currentName = '';
   currentScore = 0;
@@ -116,7 +119,7 @@ function savePlayerName() {
 function renderStartPage() {
   allPages.forEach(page => {
     if (!page.classList.contains('start-page') && !page.classList.contains('hidden')) {
-        page.classList.add('hidden');
+      page.classList.add('hidden');
     }
   });
   startPage.classList.remove('hidden');
@@ -126,7 +129,7 @@ function renderStartPage() {
 function renderCategoryPage() {
   allPages.forEach(page => {
     if (!page.classList.contains('category-page') && !page.classList.contains('hidden')) {
-        page.classList.add('hidden');
+      page.classList.add('hidden');
     }
   });
   categoryPage.classList.remove('hidden');
@@ -136,7 +139,7 @@ function renderCategoryPage() {
 function renderDifficultyPage() {
   allPages.forEach(page => {
     if (!page.classList.contains('difficulty-page') && !page.classList.contains('hidden')) {
-        page.classList.add('hidden');
+      page.classList.add('hidden');
     }
   });
   difficultyPage.classList.remove('hidden');
@@ -146,7 +149,7 @@ function renderDifficultyPage() {
 function renderQuestionsPage() {
   allPages.forEach(page => {
     if (!page.classList.contains('question-page') && !page.classList.contains('hidden')) {
-        page.classList.add('hidden');
+      page.classList.add('hidden');
     }
   });
   questionPage.classList.remove('hidden');
@@ -158,7 +161,7 @@ function renderGameOverPage() {
   pointsScore.innerHTML = `${currentScore}`;
   allPages.forEach(page => {
     if (!page.classList.contains('game-over-page') && !page.classList.contains('hidden')) {
-        page.classList.add('hidden');
+      page.classList.add('hidden');
     }
   });
   gameOverPage.classList.remove('hidden');
@@ -169,7 +172,7 @@ function renderHighscores() {
   addHighscore();
   allPages.forEach(page => {
     if (!page.classList.contains('highscore-page') && !page.classList.contains('hidden')) {
-        page.classList.add('hidden');
+      page.classList.add('hidden');
     }
   });
   highscorePage.classList.remove('hidden');
@@ -228,7 +231,7 @@ function chosenQuiz() {
 
       questionTimer = 15;
       scoreGain = 3;
-    } 
+    }
 
   } else if (category == 'geography') {
     if (difficulty == 'easy') {
@@ -249,8 +252,8 @@ function chosenQuiz() {
       incorrectAnswers = geographyQuestionsHard[questionCounter].incorrect_answers;
       questionTimer = 15;
       scoreGain = 3;
-    } 
-    
+    }
+
   } else if (category == 'computer') {
     if (difficulty == 'easy') {
       question = computerQuestionsEasy[questionCounter].question;
@@ -270,7 +273,7 @@ function chosenQuiz() {
       incorrectAnswers = computerQuestionsHard[questionCounter].incorrect_answers;
       questionTimer = 15;
       scoreGain = 3;
-    } 
+    }
   }
 }
 
@@ -326,7 +329,7 @@ function startCountdown(seconds) {
 
   function updateCountdown() {
     countdownEl.innerHTML = `${countdownSeconds}`;
-    
+
     if (countdownSeconds <= 0) {
       stopAnimateCountdown();
       clearInterval(countdownInterval);
@@ -369,7 +372,8 @@ function animateQuestions() {
 
 // play again
 function restartGame() {
-  init();
+  const reload = true;
+  init(reload);
 }
 
 // highscore
@@ -398,13 +402,48 @@ function checkAnswer(e) {
   const myAnswer = e.currentTarget.innerHTML;
   const checkMyAnswerCorrect = e.currentTarget;
 
+  let myAnswerArray = [];
+  myAnswerArray.push(myAnswer);
+
+  myAnswerArray.forEach((answer) => {
+    const compareAnswersTable = document.querySelector(".compare-answers-table");
+
+    const showQuestionRow = document.createElement("tr");
+
+    const showQuestion = document.createElement("th");
+    showQuestion.setAttribute("class", "show-question");
+    showQuestion.setAttribute("colspan", "2");
+    showQuestion.innerHTML = question;
+    showQuestionRow.append(showQuestion);
+    compareAnswersTable.append(showQuestionRow);
+
+    const compareAnswers = document.createElement("tr");
+    compareAnswers.setAttribute("class", "compare-answers");
+
+    const showUserAnswer = document.createElement("td");
+    showUserAnswer.setAttribute("class", "show-user-answer");
+    showUserAnswer.innerHTML = answer;
+    compareAnswers.append(showUserAnswer);
+
+    const showCorrectAnswer = document.createElement("td");
+    showCorrectAnswer.setAttribute("class", "show-correct-answer");
+    showCorrectAnswer.innerHTML = correctAnswer;
+    compareAnswers.append(showCorrectAnswer);
+    compareAnswersTable.append(compareAnswers);
+  })
+
   // add score or remove score (minimum 0 score)
   if (myAnswer == correctAnswer) {
     currentScore += scoreGain;
     checkMyAnswerCorrect.classList.add("green-answer"); //add class to change color
+    const showUserAnswer = document.querySelector(".show-user-answer");
+    showUserAnswer.setAttribute("class", "show-user-answer-correct");
+
   } else if ((myAnswer == incorrectAnswers[0] || myAnswer == incorrectAnswers[1] || myAnswer == incorrectAnswers[2])) {
     const checkMyAnswerIncorrect = e.currentTarget;
     checkMyAnswerIncorrect.classList.add("red-answer"); //add class to change color
+    const showUserAnswer = document.querySelector(".show-user-answer");
+    showUserAnswer.setAttribute("class", "show-user-answer-wrong");
     currentScore >= scoreGain ? currentScore -= scoreGain : null;
   }
 
