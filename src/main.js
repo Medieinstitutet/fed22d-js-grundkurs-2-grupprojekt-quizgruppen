@@ -73,7 +73,7 @@ let animate = gsap.to('.countdown', {
   paused: true,
   duration: .5,
   scale: 2,
-  top: '30%',
+  top: '42%',
   left: '50%'
 });
 
@@ -188,7 +188,6 @@ function renderHighscores() {
 // category choice
 function categoryChoice(e) {
   const choice = e.currentTarget.innerHTML;
-  const categoryImg = document.querySelector('#categoryImg');
 
   if (choice.toLowerCase() == 'animals') {
     category = 'animals';
@@ -397,7 +396,7 @@ function stopAnimateCountdown() {
     paused: true,
     duration: .5,
     scale: 2,
-    top: '30%',
+    top: '42%',
     left: '50%'
   });
 }
@@ -483,6 +482,7 @@ function checkAnswer(e) {
       checkMyAnswerCorrect.classList.remove('green-answer')
     }, 3000);
   } else if ((myAnswer == incorrectAnswers[0] || myAnswer == incorrectAnswers[1] || myAnswer == incorrectAnswers[2])) {
+    currentScore >= scoreGain ? currentScore -= scoreGain : currentScore = 0;
     const checkMyAnswerIncorrect = e.currentTarget;
     checkMyAnswerIncorrect.classList.add("red-answer"); //add class to change color
     const showUserAnswer = document.querySelector(".show-user-answer");
@@ -491,9 +491,6 @@ function checkAnswer(e) {
     setTimeout(() => {
       checkMyAnswerIncorrect.classList.remove('red-answer');
     }, 3000);
-    currentScore >= scoreGain ? currentScore -= scoreGain : currentScore = 0;
-    const showUserAnswer = document.querySelector(".show-user-answer");
-    showUserAnswer.setAttribute("class", "show-user-answer-correct");
   }
 
   stopAnimateCountdown();
