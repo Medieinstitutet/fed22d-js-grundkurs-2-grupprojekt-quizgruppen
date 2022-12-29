@@ -204,6 +204,12 @@ button {
   gap: 0;
 }
 
+.category-img {
+  border-radius: 50%;
+  width: 170px;
+  height: 170px;
+}
+
 .question-container p {
   margin: 0 10px;
   text-align: center;
@@ -311,6 +317,39 @@ button {
   text-align: center;
 }
 
+.compare-answers-table {
+  background-color: rgba(255, 255, 255, 0.134);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  width: 80vw;
+}
+
+.table-description td {
+  text-transform: uppercase;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.show-question {
+  padding-top: 25px;
+  font-weight: normal;
+}
+
+.show-user-answer-correct {
+  background-color: rgba(43, 194, 26, 0.478);
+  width: 50%;
+}
+
+.show-user-answer-wrong {
+  background-color: rgba(211, 61, 20, 0.619);
+  width: 50%;
+}
+
+.show-correct-answer {
+  background-color: rgba(43, 194, 26, 0.478);
+}
+
 .play-again {
   background: linear-gradient(rgb(246, 201, 77), rgb(219, 135, 9), rgb(235, 61, 8));
   padding: 10px 50px;
@@ -356,56 +395,6 @@ button {
     justify-content: space-evenly;
   }
 }
-
-// // Anton VVVVVVV
-// .app {
-//   margin-block: 20px;
-// }
-
-// p {
-//   position: fixed;
-//   top: 10px;
-//   left: 10px;
-//   font-size: 2rem;
-//   color: black;
-//   background-color: white;
-//   border: solid 1px black;
-//   border-radius: 5px;
-//   z-index: 10;
-//   padding: 5px;
-// }
-
-// .questionDiv {
-//   position: relative;
-//   width: 100%;
-//   height: 400px;
-//   margin-bottom: 100px;
-//   display: flex;
-//   flex-wrap: wrap;
-//   gap: 30px;
-//   justify-content: space-between;
-//   border: solid 2px white;
-//   padding: 10px;
-
-//   h2 {
-//     text-align: center;
-//     width: 100%;
-//     display: block;
-//     text-decoration: underline;
-//     margin-bottom: 50px;
-//   }
-
-//   button {
-//     border: solid 2px white;
-//     background-color: black;
-//     color: white;
-//     border-radius: 10px;
-//     width: 150px;
-//     height: 60px;
-//     display: block;
-//   }
-// }
-
 
 //------------------------------------------- DESKTOP ---------------------------------------------
 @media screen and (min-width: 1024px) {
