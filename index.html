@@ -13,8 +13,8 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js" defer></script>
-  <script type="module" crossorigin src="/fed22d-js-grundkurs-2-grupprojekt-quizgruppen/assets/index.64367b62.js"></script>
-  <link rel="stylesheet" href="/fed22d-js-grundkurs-2-grupprojekt-quizgruppen/assets/index.924ac2ea.css">
+  <script type="module" crossorigin src="/fed22d-js-grundkurs-2-grupprojekt-quizgruppen/assets/index.65a18152.js"></script>
+  <link rel="stylesheet" href="/fed22d-js-grundkurs-2-grupprojekt-quizgruppen/assets/index.09a74cd1.css">
 </head>
 
 <body>
@@ -28,17 +28,24 @@
         <!--question mark for decorative purpose only-->
       </div>
       <h1>Quiz Time!</h1>
-      <h2 id="quiz-description">Try out this QUIZ about . . . </h2>
+      <h2 class="quiz-description" id="quiz-description">
+        There are 3 categories and 3 difficulties to choose from in this quiz.
+        Each correct answer in the easy category grants you 1 point, medium 2 points, and hard 3 points.
+        Each category is worth the same amount of points.
+        If you answer quickly enough, you will be rewarded with a bonus point.
+        <span class="good-luck">Good luck!</span>
+      </h2>
     </div>
 
     <div class="player-start-container">
       <div id="addPlayer">
-        <input class="player" id=playerName placeholder="Your name">
+        <h3>Please enter your name:</h3>
+        <input class="player" id="playerName" placeholder="Your name">
       </div>
 
       <button class="start" id="start-game-button">Start</button>
 
-      <button class="choice-btn highscore-btn">View highscores</button>
+      <button class="highscore-btn">View highscores</button>
 
     </div>
   </section>
@@ -59,23 +66,26 @@
 
   <section class="question-page page hidden" id="question-page">
 
-    <figure class="category-img">
-      <img class="category-img" id="categoryImg" src="" alt="">
+    <figure>
+      <img class="category-img" id="category-img" src="" alt="" width="280px" height="280px">
     </figure>
 
     <div class="countdown" id="countdown"></div>
 
     <div class="score" id="score"></div>
 
-    <div class="question-container">
-      <p id="question-text"></p>
-    </div>
+    <div class="question-wrapper">
 
-    <div class="answers-container">
-      <button class="answer-btn"></button>
-      <button class="answer-btn"></button>
-      <button class="answer-btn"></button>
-      <button class="answer-btn"></button>
+      <div class="question-container">
+        <p id="question-text"></p>
+      </div>
+
+      <div class="answers-container">
+        <button class="answer-btn"></button>
+        <button class="answer-btn"></button>
+        <button class="answer-btn"></button>
+        <button class="answer-btn"></button>
+      </div>
     </div>
   </section>
 
@@ -103,7 +113,7 @@
 
     <button class="choice-btn highscore-btn">View highscores</button>
 
-    <button class="play-again" id="playAgainBtn">Play again</button>
+    <button class="choice-btn" id="playAgainBtn">Play again</button>
   </section>
 
   
