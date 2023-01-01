@@ -1,22 +1,119 @@
 <!DOCTYPE html>
-<html lang="en"> <!-- TODO: glöm ej att byta språk här -->
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/ico" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Projekt</title>
-  </head>
-  <body>
-    <main>
-      <div class="app" id="app"></div> <!-- TODO: går bra att radera -->
-      <!-- TODO: skriv din kod här, innan script-taggen -->
-    </main>
+<html lang="en">
 
-    <!-- TODO
-    - Validera HTML (kopiera den renderade HTML-koden): https://validator.w3.org/#validate_by_input
-    - Kontrollera tillgänglighet: https://www.a11yproject.com/checklist/ & Chrome Lighthouse/Firefox Accessibility Tools
-    - Validera genererade CSS: https://jigsaw.w3.org/css-validator/#validate_by_input
-    -->
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/ico" href="/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Slackey&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js" defer></script>
+</head>
+
+<body>
+
+  <section class="start-page page" id="start-page">
+
+    <div class="logo-description-container">
+      <div class="logo-container">
+        <span class="logo" aria-hidden=true>?</span>
+        <!--question mark for decorative purpose only-->
+      </div>
+      <h1>Quiz Time!</h1>
+      <h2 class="quiz-description" id="quiz-description">
+        There are 3 categories and 3 difficulties to choose from in this quiz.
+        Each correct answer in the easy category grants you 1 point, medium 2 points, and hard 3 points.
+        Each category is worth the same amount of points.
+        If you answer quickly enough, you will be rewarded with a bonus point.
+        <span class="good-luck">Good luck!</span>
+      </h2>
+    </div>
+
+    <div class="player-start-container">
+      <div id="addPlayer">
+        <h3>Please enter your name:</h3>
+        <input class="player" id="playerName" placeholder="Your name">
+      </div>
+
+      <button class="start" id="start-game-button">Start</button>
+
+      <button class="highscore-btn">View highscores</button>
+
+    </div>
+  </section>
+
+  <section class="category-page page hidden" id="category-page">
+    <h2>Category</h2>
+    <button id="animals-btn" class="choice-btn" aria-label="Animal questions">Animals</button>
+    <button id="geography-btn" class="choice-btn" aria-label="Geography questions">Geography</button>
+    <button id="computer-btn" class="choice-btn" aria-label="Computer questions">Computer</button>
+  </section>
+
+  <section class="difficulty-page page hidden" id="difficulty-page">
+    <h2>Difficulty</h2>
+    <button id="easy-btn" class="choice-btn" aria-label="Easy difficulty">Easy</button>
+    <button id="medium-btn" class="choice-btn" aria-label="Medium difficulty">Medium</button>
+    <button id="hard-btn" class="choice-btn" aria-label="Hard difficulty">Hard</button>
+  </section>
+
+  <section class="question-page page hidden" id="question-page">
+
+    <figure>
+      <img class="category-img" id="category-img" src="/src/animal-bg.png" alt="" width="280" height="280">
+    </figure>
+
+    <div class="countdown" id="countdown"></div>
+
+    <div class="score" id="score"></div>
+
+    <div class="question-wrapper">
+
+      <div class="question-container">
+        <p id="question-text"></p>
+      </div>
+
+      <div class="answers-container">
+        <button class="answer-btn"></button>
+        <button class="answer-btn"></button>
+        <button class="answer-btn"></button>
+        <button class="answer-btn"></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="highscore-page page hidden" id="highscore-page">
+    <h2>Highscores</h2>
+    <ol class="highscore-list" id="highscore-list"></ol>
+    <button class="choice-btn" id="back-btn">Back</button>
+  </section>
+
+  <section class="game-over-page page hidden" id="game-over-page">
+    <div class="logo-container">
+      <span class="logo" aria-hidden=true>?</span>
+    </div>
+
+    <p class="game-over">Game over!</p>
+
+    <p class="points-text">You got <span id="points"></span> points</p>
+
+    <table class="compare-answers-table">
+      <tr class="table-description">
+        <td>Your answer</td>
+        <td>Correct answer</td>
+      </tr>
+    </table>
+
+    <button class="choice-btn highscore-btn">View highscores</button>
+
+    <button class="choice-btn" id="playAgainBtn">Play again</button>
+  </section>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
 </html>

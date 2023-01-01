@@ -1,50 +1,36 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=9554994&assignment_repo_type=AssignmentRepo)
-# FED22D JS Grundkurs Projektmall
-Mall för projektuppgiften i JavaScript Grundkurs för FED22D.
 
-Mallen innehåller:
-- Vite (för att komprimera och publicera optimerad kod)
-- ESLint, Prettier och Stylelint för kodformatering
-- TypeScript för typstöd
-- Inställningar för Visual Studio Code
+# QUIZ GAME 🚀
 
-## Installation
-Installera "dependencies" till projektet med följande kommando i terminalen:
+A school project where we developed a quiz game. The quiz has 3 categories and 3 difficulties to choose from (Easy, Medium, Hard).
 
-- Med npm: `npm install`
-- Med pnpm: `pnpm install`
-- Med Yarn: `yarn install`
+The categories:
+- Animals 🐹
+- Geography 🌍
+- Computer 💻
 
-För att köra projektet, använd scriptet "dev" i `package.json`:
+Each correct answer in the Easy level grants you 1 point, Medium 2 points and Hard 3 points.  
+If you answer quickly enough, you will be rewarded with a bonus point 🏆
 
-- Med npm: `npm run dev`
-- Med pnpm: `pnpm run dev`
-- Med Yarn: `yarn run dev`
+Try it out here ☞ [Link to Quiz](https://medieinstitutet.github.io/fed22d-js-grundkurs-2-grupprojekt-quizgruppen/)
 
-## Såhär använder du mallen
-- Du arbetar primärt i mappen `src`. Där finns JavaScript och stilmallar.
-- På rotnivån i projektet hittar du `index.html`, som du kan använda såsom du använt `index.html` hittills i de olika projekten.
-- I mappen `public` lägger du alla filer som t.ex. bilder, favicons, fonter, osv. som är s.k. "static assets". T.ex. sådant du behöver länka in från SCSS.
 
-### Filer du inte behöver röra
-- `src/vite-env.d.ts` - Används för att bidra med "code hinting" i editorn
-- `.gitignore` - Vilka filer som inte ska vara med i versionshanteringen
-- `tsconfig.json` - Används för att definiera hur TypeScript ska skrivas och tolkas
-- `.npmrc` - Används för att installera ev. dependencies
-- `stylelint.config.cjs` - Regler för hur SCSS ska skrivas.
-- `.pretterrc.json` - Används för att tvinga JavaScript att skrivas på ett visst sätt. Ändra om du vill göra en egen konfiguration
-- `.eslintrc.cjs` - Används för att tvinga JavaScript att skrivas på ett visst sätt. Ändra om du vill göra din egen konfiguration.
-- Mappen `.github` innehåller en s.k. action/workflow för att publicera de ändringar som pushas till main, när repot är publikt
+## Tech stack 🔧
 
-## Publicera ditt projekt
-Detta projekt innehåller en automatisk workflow/action, som fungerar såhär:
+- JavaScript 
+- CSS/SCSS
+- HTML
 
-1. Varje gång du pushar till branchen `main`, så triggas ett script som heter `Deploy changes`.
-2. Detta script kör i princip kommandot `pnpm run build`. Den skapar en mapp som heter `dist`, som innehåller ditt optimerade/färdiga/publicerade projekt. Filerna i den mappen kopieras över till en ny branch, som heter `gh-pages`.
 
-För att aktivera din sajt live behöver du:
+## Authors 👨‍💻 👩‍💻
 
-1. Gå in i filen `vite.config.js` och ändra `base` så att den heter samma som ditt repo heter.
-2. Gå in i inställningarna för ditt repo (Settings), gå till fliken "General" och längst ner på sidan i "Danger Zone" ändrar du repots "visibility" till public.
-3. I samma "Settings"-flik på ditt repo, klicka på "Pages" i menyn till vänster.
-4. I "Branch"-dropdownen väljer du `gh-pages`.
+- [@antonjanzon95](https://github.com/antonjanzon95)
+- [@zandrastr](https://github.com/zandrastr) 
+
+
+## Screenshots 🖼️
+
+![Start page](https://user-images.githubusercontent.com/95537845/210182537-77f0b551-bcdd-4f34-875c-4f8affe6110b.png)
+
+![Question page](https://user-images.githubusercontent.com/95537845/210182553-5bc08436-cd25-4109-8ce3-18090700ac25.png)
+
+![Game Over page](https://user-images.githubusercontent.com/95537845/210182562-81c4c235-ba88-4739-b7a7-89163d9db28e.png)
